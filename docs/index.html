@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>パパ育児ガイド</title>
+<style>
+:root{
+  --bg:#f6f4ee; --card:#ffffff; --ink:#2b2620; --muted:#8a8177;
+  --accent:#e07856; --accent-d:#c75f3e; --sage:#7d9b76; --sage-bg:#e9f0e6;
+  --sun:#f2b441; --sun-bg:#fdf3dd; --line:#e7e0d3; --danger:#c0392b;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  line-height:1.75; font-size:15px;}
+.wrap{max-width:480px; margin:0 auto; padding-bottom:96px;}
+header.hero{background:linear-gradient(135deg,#2e3a2f,#4a6b4f); color:#fff;
+  padding:34px 20px 26px; border-radius:0 0 26px 26px;}
+header.hero h1{margin:0; font-size:24px; letter-spacing:.02em;}
+header.hero h1 span{font-size:15px; font-weight:normal; opacity:.85; display:block; margin-top:2px;}
+header.hero p{margin:10px 0 0; font-size:13px; opacity:.85;}
+.progress-card{background:var(--card); margin:-0px 16px 0; border-radius:16px;
+  padding:14px 16px; box-shadow:0 4px 14px rgba(0,0,0,.08); position:relative; top:-0px; transform:translateY(-0px);}
+.progress-card{margin-top:14px;}
+.progress-card .row{display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted);}
+.progress-card .row b{color:var(--ink); font-size:15px;}
+.bar{height:10px; background:#eee7d7; border-radius:99px; margin-top:8px; overflow:hidden;}
+.bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--sage),#a5c09e); border-radius:99px; transition:width .4s;}
+nav.tabs{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px;
+  background:rgba(255,255,255,.96); backdrop-filter:blur(8px); border-top:1px solid var(--line);
+  display:flex; padding:6px 4px calc(8px + env(safe-area-inset-bottom)); z-index:10;}
+nav.tabs button{flex:1; border:0; background:none; font-size:10px; color:var(--muted);
+  display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer;}
+nav.tabs button .e{font-size:20px;}
+nav.tabs button.on{color:var(--accent-d); font-weight:bold;}
+main{padding:0 16px;}
+section.page{display:none;}
+section.page.on{display:block; animation:fade .25s;}
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1;}}
+h2{font-size:18px; margin:22px 0 10px; display:flex; align-items:center; gap:8px;}
+h2::before{content:""; width:5px; height:1.2em; background:var(--accent); border-radius:3px;}
+.card{background:var(--card); border-radius:16px; padding:16px; margin:12px 0;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.card h3{margin:0 0 8px; font-size:16px;}
+.card p{margin:8px 0;}
+.tip{background:var(--sage-bg); border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
+.tip b{color:#4a6b4f;}
+.ng{background:#fdecea; border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
+.ng b{color:var(--danger);}
+ul.clean{margin:8px 0; padding-left:1.2em;}
+ul.clean li{margin:6px 0;}
+.age-tag{display:inline-block; font-size:12px; background:var(--sun-bg); color:#8a5f00;
+  border-radius:99px; padding:2px 10px; margin-bottom:6px; font-weight:bold;}
+.check{display:flex; gap:10px; align-items:flex-start; padding:11px 4px; border-bottom:1px solid var(--line); cursor:pointer;}
+.check:last-child{border-bottom:0;}
+.check input{width:22px; height:22px; margin-top:2px; accent-color:var(--sage); flex-shrink:0;}
+.check.done span{color:var(--muted); text-decoration:line-through;}
+.check small{display:block; color:var(--muted); font-size:12px;}
+.sos{background:#2b2620; color:#fff; border-radius:16px; padding:16px; margin:12px 0;}
+.sos h3{margin:0 0 8px; color:var(--sun);}
+.sos a{color:#fff; font-weight:bold; font-size:18px; text-decoration:none; border-bottom:2px solid var(--sun);}
+.sos p{font-size:13px; opacity:.85;}
+footer{color:var(--muted); font-size:12px; text-align:center; margin:26px 0 0;}
+.motto{background:linear-gradient(135deg,var(--accent),var(--accent-d)); color:#fff;
+  border-radius:16px; padding:16px; margin:12px 0; font-weight:bold;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>👨‍👧 パパ育児ガイド<span>〜ママの最高のパートナーになる〜</span></h1>
+  <p>育児のプロ・UXの視点で厳選。今日からできることだけ集めました。</p>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="page on" id="p-home">
+    <div class="progress-card">
+      <div class="row"><span>今日のできたチェック</span><b id="pct">0%</b></div>
+      <div class="bar"><i id="bar"></i></div>
+    </div>
+    <h2>パパの心得5か条</h2>
+    <div class="card"><h3>① 「手伝う」ではなく「担う」</h3>
+      <p>「手伝おうか？」はNG。「おむつ替えるね」「離乳食作るね」と<b>自分が主体</b>で宣言する。ママは監督ではなくパートナーを求めています。</p></div>
+    <div class="card"><h3>② ママの睡眠を最優先で守る</h3>
+      <p>産後の睡眠不足は万病のもと。夜間対応を分担し、週末は<b>ママにまとまった昼寝時間</b>をプレゼントするのが最強の愛情表現。</p></div>
+    <div class="card"><h3>③ 気づいたら即やる・報告する</h3>
+      <p>「言われる前にやる」が信頼を積む。やったことは「やったよ」と報告。見えない家事を<b>見える化</b>すると感謝が循環します。</p></div>
+    <div class="card"><h3>④ ママを一人の人間として見る</h3>
+      <p>「ママ」である前に、一人の女性・大人。「今日どうだった？」「何か食べたいものある？」と<b>ママ自身への関心</b>を忘れない。</p></div>
+    <div class="card"><h3>⑤ 完璧を目指さない</h3>
+      <p>泣き止まなくても、離乳食をこぼしてもOK。パパが笑っていることが、子どもの安心とママの余裕につながります。</p></div>
+    <div class="motto">💡 合言葉：「ありがとう」と「ごめん」は惜しまない。感謝は具体的に、謝罪は言い訳なしで。</div>
+  </section>
+
+  <!-- AGE -->
+  <section class="page" id="p-age">
+    <h2>年齢別・パパのやること</h2>
+    <div class="card"><span class="age-tag">新生児 0〜2ヶ月</span><h3>🌙 とにかくママの回復が最優先</h3>
+      <ul class="clean"><li>夜間授乳のサポート（ゲップ・おむつ・寝かしつけ担当）</li><li>沐浴・おむつ替えをマスター（回数が信頼になる）</li><li>泣いたら即抱っこ。「抱き癖」は心配無用</li><li>来客・実家対応の窓口はパパが担う</li></ul>
+      <div class="tip">💡 <b>コツ：</b>授乳以外は全部できる。「母乳以外はパパの仕事」くらいの気概で。</div></div>
+    <div class="card"><span class="age-tag">乳児 3〜11ヶ月</span><h3>🍼 生活リズムづくりに参戦</h3>
+      <ul class="clean"><li>離乳食づくり・食べさせを分担（週末まとめ作りが◎）</li><li>お風呂はパパ担当に（スキンシップの宝庫）</li><li>寝かしつけのレパートリーを持つ（抱っこ・トントン・歌）</li><li>ハイハイ期の安全対策（誤飲・転落防止）を主導</li></ul>
+      <div class="tip">💡 <b>コツ：</b>「パパだと寝ない」は慣れの問題。根気よく続けると必ず寝るようになります。</div></div>
+    <div class="card"><span class="age-tag">幼児 1〜3歳</span><h3>🏃 全力で遊ぶ・全力で見守る</h3>
+      <ul class="clean"><li>公園・外遊びはパパの担当に（体力勝負は得意分野）</li><li>イヤイヤ期は「共感→選択肢」の順で対応</li><li>絵本の読み聞かせを日課に（語彙力が伸びる）</li><li>トイトレ・着替えなど自立の練習に付き合う</li></ul>
+      <div class="tip">💡 <b>コツ：</b>叱るより「どうしたかったの？」と気持ちを言語化してあげる。</div></div>
+    <div class="card"><span class="age-tag">3歳〜</span><h3>🌱 社会性と自信を育てる</h3>
+      <ul class="clean"><li>約束は必ず守る（パパへの信頼＝自己肯定感）</li><li>料理・掃除・工作を一緒に（「できた！」体験を量産）</li><li>子どもの話は目を見て最後まで聞く</li><li>ママと意見が割れたら子どもの前で対立しない</li></ul></div>
+  </section>
+
+  <!-- MAMA -->
+  <section class="page" id="p-mama">
+    <h2>ママへの適切な対応</h2>
+    <div class="card"><h3>💬 言っていいこと・悪いこと</h3>
+      <p><b>◎ 魔法の言葉</b></p>
+      <ul class="clean"><li>「いつもありがとう」「助かってるよ」</li><li>「大変だったね、今日どうだった？」</li><li>「少し休んでおいで、こっちは任せて」</li><li>「君が頑張ってるの分かってるよ」</li></ul>
+      <div class="ng">⛔ <b>地雷ワード</b><ul class="clean">
+        <li>「俺より楽でしょ？」「一日家にいるのに」</li>
+        <li>「（泣いてる子に）ママがいいんだね」</li>
+        <li>「やり方が違うよ」（まず感謝→提案の順で）</li>
+        <li>「疲れてるのはお互いさまだよ」</li></ul></div></div>
+    <div class="card"><h3>🧠 産後の心と体を知る</h3>
+      <ul class="clean"><li>ホルモン変化で涙もろく・イライラしやすいのは<b>生理現象</b>。人格否定と受け取らない</li><li>産後うつのサイン（2週間以上の不眠・食欲低下・無気力）は<b>早めに受診</b>を促す</li><li>「一人時間」の確保は贅沢ではなく<b>必要経費</b></li><li>実母・義母との板挟みはパパが盾になる（特に義母対応は夫の仕事）</li></ul></div>
+    <div class="card"><h3>🎁  weekly ミッション</h3>
+      <ul class="clean"><li>週1回、ママに<b>2時間のフリータイム</b>を作る</li><li>月1回、2人きりの時間（子を預けて外食など）</li><li>ママの誕生日・母の日は子どもと一緒に準備</li><li>健診・予防接種のスケジュールも把握する</li></ul></div>
+  </section>
+
+  <!-- CHECK -->
+  <section class="page" id="p-check">
+    <h2>今日のできたチェック</h2>
+    <p style="color:var(--muted);font-size:13px;">タップでチェック。記録はこのiPhoneに保存されます。</p>
+    <div class="card" id="checklist"></div>
+    <div class="card"><h3>🏠 パパの定番タスク</h3>
+      <ul class="clean"><li>🛁 お風呂入れ（→保湿・着替えまでがセット）</li><li>🍼 ミルク・離乳食の準備と後片付け</li><li>🧷 おむつ替え・着替え</li><li>🧺 洗濯（干す→畳む→しまうまで）</li><li>🍳 夕食づくり or 買い出し</li><li>🧹 掃除機・トイレ掃除・ゴミ出し</li><li>📕 寝かしつけ・読み聞かせ</li></ul>
+      <div class="tip">💡 <b>鉄則：</b>「名もなき家事」（詰め替え・ゴミ袋セット・連絡帳記入…）に気づけるパパは最強。</div></div>
+  </section>
+
+  <!-- SOS -->
+  <section class="page" id="p-sos">
+    <h2>いざという時</h2>
+    <div class="sos"><h3>📞 小児救急電話相談 #8000</h3>
+      <p>夜間・休日の子どもの急病時に看護師・医師に相談できます。迷ったらまず電話。</p>
+      <a href="tel:#8000">#8000 にかける</a>
+      <p>受付：平日 19:00〜翌8:00／土曜 15:00〜翌8:00／日祝 8:00〜翌8:00（地域差あり）</p></div>
+    <div class="sos" style="background:#4a2b26;"><h3>☠️ 中毒・誤飲 → 中毒110番</h3>
+      <p>タバコ・薬・洗剤などの誤飲時は応急処置を指示してもらえます。</p>
+      <p>大阪 <a href="tel:0727272499">072-727-2499</a>（365日24h）<br>つくば <a href="tel:0298529999">029-852-9999</a>（365日 9〜21時）</p></div>
+    <div class="card"><h3>🌡️ 発熱の目安</h3>
+      <ul class="clean"><li>生後3ヶ月未満の38℃以上 → <b>すぐ受診</b></li><li>水分が取れない・ぐったり・けいれん → <b>救急</b></li><li>元気で水分OKなら翌朝の受診で大丈夫なことも</li><li>解熱剤は医師の指示通りに（自己判断で使わない）</li></ul></div>
+    <div class="card"><h3>📋 パパも把握しておく情報</h3>
+      <ul class="clean"><li>かかりつけ小児科の住所・電話・休診日</li><li>母子手帳の場所・アレルギー情報</li><li>保育園・幼稚園の緊急連絡先</li><li>ママが倒れた時の預け先（実家・ファミサポ等）</li></ul></div>
+  </section>
+
+<footer>パパ育児ガイド v1.0<br>困ったら #8000。パパ、今日もおつかれさま 👏</footer>
+</main>
+</div>
+
+<nav class="tabs">
+  <button class="on" data-p="p-home"><span class="e">🏠</span>ホーム</button>
+  <button data-p="p-age"><span class="e">🌱</span>年齢別</button>
+  <button data-p="p-mama"><span class="e">💬</span>ママ対応</button>
+  <button data-p="p-check"><span class="e">✅</span>チェック</button>
+  <button data-p="p-sos"><span class="e">🆘</span>救急</button>
+</nav>
+
+<script>
+const pages=document.querySelectorAll('.page');
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));
+  window.scrollTo({top:0});
+});
+const ITEMS=[
+ ["おむつ替え・着替えをした","回数が信頼残高になる"],
+ ["お風呂〜保湿〜着替えまでやった","パパ担当化がおすすめ"],
+ ["寝かしつけをした","パパでも必ず寝るようになる"],
+ ["食事の準備・片付けをした","作る〜洗うまでがワンセット"],
+ ["洗濯を最後までやった","干す→畳む→しまうまで"],
+ ["掃除・ゴミ出しをした","名もなき家事に気づく"],
+ ["ママに感謝を言葉で伝えた","具体的に言うと効果3倍"],
+ ["ママに一人の時間を作った","週1・2時間が目安"],
+ ["子どもの話を目を見て聞いた","途中で遮らない"],
+ ["ママの話を15分聞いた","解決策より共感ファースト"],
+];
+const KEY='papa-check-v1';
+let state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+const today=new Date().toDateString();
+if(state.date!==today) state={date:today};
+else state.date=today;
+const list=document.getElementById('checklist');
+ITEMS.forEach((it,i)=>{
+  const l=document.createElement('label'); l.className='check'+(state[i]?' done':'');
+  l.innerHTML='<input type="checkbox" '+(state[i]?'checked':'')+'><span>'+it[0]+'<small>'+it[1]+'</small></span>';
+  l.querySelector('input').onchange=e=>{state[i]=e.target.checked; state.date=today;
+    try{localStorage.setItem(KEY,JSON.stringify(state))}catch(_){}
+    l.classList.toggle('done',e.target.checked); update();};
+  list.appendChild(l);
+});
+function update(){
+  const n=ITEMS.filter((_,i)=>state[i]).length, p=Math.round(n/ITEMS.length*100);
+  document.getElementById('pct').textContent=p+'%（'+n+'/'+ITEMS.length+'）';
+  document.getElementById('bar').style.width=p+'%';
+}
+update();
+</script>
+</body>
+</html>
