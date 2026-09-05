@@ -3,35 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2e3a2f">
 <title>パパ育児ガイド</title>
 <style>
 :root{
   --bg:#f6f4ee; --card:#ffffff; --ink:#2b2620; --muted:#8a8177;
   --accent:#e07856; --accent-d:#c75f3e; --sage:#7d9b76; --sage-bg:#e9f0e6;
-  --sun:#f2b441; --sun-bg:#fdf3dd; --line:#e7e0d3; --danger:#c0392b;
+  --sun:#f2b441; --sun-bg:#fdf3dd; --line:#e7e0d3; --danger:#c0392b; --danger-bg:#fdecea;
+  --sky:#5b8fb9; --sky-bg:#e8f1f8;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 body{margin:0; background:var(--bg); color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
   line-height:1.75; font-size:15px;}
-.wrap{max-width:480px; margin:0 auto; padding-bottom:96px;}
+.wrap{max-width:480px; margin:0 auto; padding-bottom:100px;}
 header.hero{background:linear-gradient(135deg,#2e3a2f,#4a6b4f); color:#fff;
   padding:34px 20px 26px; border-radius:0 0 26px 26px;}
 header.hero h1{margin:0; font-size:24px; letter-spacing:.02em;}
 header.hero h1 span{font-size:15px; font-weight:normal; opacity:.85; display:block; margin-top:2px;}
 header.hero p{margin:10px 0 0; font-size:13px; opacity:.85;}
-.progress-card{background:var(--card); margin:-0px 16px 0; border-radius:16px;
-  padding:14px 16px; box-shadow:0 4px 14px rgba(0,0,0,.08); position:relative; top:-0px; transform:translateY(-0px);}
-.progress-card{margin-top:14px;}
+.progress-card{background:var(--card); margin:14px 16px 0; border-radius:16px;
+  padding:14px 16px; box-shadow:0 4px 14px rgba(0,0,0,.08);}
 .progress-card .row{display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted);}
 .progress-card .row b{color:var(--ink); font-size:15px;}
 .bar{height:10px; background:#eee7d7; border-radius:99px; margin-top:8px; overflow:hidden;}
 .bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--sage),#a5c09e); border-radius:99px; transition:width .4s;}
 nav.tabs{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px;
   background:rgba(255,255,255,.96); backdrop-filter:blur(8px); border-top:1px solid var(--line);
-  display:flex; padding:6px 4px calc(8px + env(safe-area-inset-bottom)); z-index:10;}
+  display:flex; padding:6px 2px calc(8px + env(safe-area-inset-bottom)); z-index:10;}
 nav.tabs button{flex:1; border:0; background:none; font-size:10px; color:var(--muted);
-  display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer;}
+  display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; min-width:0;}
 nav.tabs button .e{font-size:20px;}
 nav.tabs button.on{color:var(--accent-d); font-weight:bold;}
 main{padding:0 16px;}
@@ -39,17 +41,27 @@ section.page{display:none;}
 section.page.on{display:block; animation:fade .25s;}
 @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1;}}
 h2{font-size:18px; margin:22px 0 10px; display:flex; align-items:center; gap:8px;}
-h2::before{content:""; width:5px; height:1.2em; background:var(--accent); border-radius:3px;}
+h2::before{content:""; width:5px; height:1.2em; background:var(--accent); border-radius:3px; flex-shrink:0;}
+.lead{color:var(--muted); font-size:13px; margin:-4px 0 10px;}
 .card{background:var(--card); border-radius:16px; padding:16px; margin:12px 0;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  box-shadow:0 2px 8px rgba(0,0,0,.05); position:relative;}
 .card h3{margin:0 0 8px; font-size:16px;}
+.card h4{margin:14px 0 6px; font-size:14px; color:#4a6b4f;}
 .card p{margin:8px 0;}
+.card.now{outline:3px solid var(--sun); outline-offset:-3px;}
+.now-badge{position:absolute; top:-10px; right:14px; background:var(--sun); color:#5a3d00; font-size:11px;
+  font-weight:bold; border-radius:99px; padding:2px 10px; display:none;}
+.card.now .now-badge{display:inline-block;}
 .tip{background:var(--sage-bg); border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
 .tip b{color:#4a6b4f;}
-.ng{background:#fdecea; border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
+.ng{background:var(--danger-bg); border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
 .ng b{color:var(--danger);}
+.info{background:var(--sky-bg); border-radius:12px; padding:10px 12px; font-size:14px; margin:10px 0;}
+.info b{color:#2f5f86;}
 ul.clean{margin:8px 0; padding-left:1.2em;}
 ul.clean li{margin:6px 0;}
+ol.steps{margin:8px 0; padding-left:1.4em;}
+ol.steps li{margin:7px 0;}
 .age-tag{display:inline-block; font-size:12px; background:var(--sun-bg); color:#8a5f00;
   border-radius:99px; padding:2px 10px; margin-bottom:6px; font-weight:bold;}
 .check{display:flex; gap:10px; align-items:flex-start; padding:11px 4px; border-bottom:1px solid var(--line); cursor:pointer;}
@@ -60,10 +72,43 @@ ul.clean li{margin:6px 0;}
 .sos{background:#2b2620; color:#fff; border-radius:16px; padding:16px; margin:12px 0;}
 .sos h3{margin:0 0 8px; color:var(--sun);}
 .sos a{color:#fff; font-weight:bold; font-size:18px; text-decoration:none; border-bottom:2px solid var(--sun);}
-.sos p{font-size:13px; opacity:.85;}
+.sos a.sm{font-size:15px;}
+.sos p{font-size:13px; opacity:.9; margin:8px 0;}
+.sos ul{font-size:13px; opacity:.9; padding-left:1.2em; margin:6px 0;}
 footer{color:var(--muted); font-size:12px; text-align:center; margin:26px 0 0;}
+footer a{color:var(--muted);}
 .motto{background:linear-gradient(135deg,var(--accent),var(--accent-d)); color:#fff;
   border-radius:16px; padding:16px; margin:12px 0; font-weight:bold;}
+details{border-top:1px solid var(--line); margin-top:8px;}
+details summary{cursor:pointer; padding:10px 0; font-weight:bold; font-size:14px; color:#4a6b4f; list-style:none; display:flex; align-items:center; gap:6px;}
+details summary::-webkit-details-marker{display:none;}
+details summary::before{content:"▸"; font-size:12px; transition:transform .2s;}
+details[open] summary::before{transform:rotate(90deg);}
+details > *:not(summary){font-size:14px;}
+table.t{width:100%; border-collapse:collapse; font-size:13px; margin:8px 0;}
+table.t th,table.t td{border-bottom:1px solid var(--line); padding:6px 4px; text-align:left; vertical-align:top;}
+table.t th{color:var(--muted); font-weight:normal; white-space:nowrap;}
+.triage{display:grid; gap:8px; margin:10px 0;}
+.triage div{border-radius:12px; padding:10px 12px; font-size:14px;}
+.triage .r{background:#fbe3e0; border-left:5px solid var(--danger);}
+.triage .y{background:var(--sun-bg); border-left:5px solid var(--sun);}
+.triage .g{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.triage b{display:block; margin-bottom:4px;}
+.dob{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.dob input[type=date]{flex:1; min-width:150px; font-size:15px; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink);}
+.dob button{border:0; background:var(--sage); color:#fff; font-weight:bold; border-radius:10px; padding:9px 14px; font-size:14px; cursor:pointer;}
+.dob button.ghost{background:none; color:var(--muted); font-weight:normal; text-decoration:underline; padding:6px;}
+.agebox{display:flex; gap:12px; align-items:baseline; flex-wrap:wrap;}
+.agebox b{font-size:26px; color:#4a6b4f;}
+.agebox span{color:var(--muted); font-size:13px;}
+.ev{display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:14px;}
+.ev:last-child{border-bottom:0;}
+.ev .m{flex-shrink:0; width:64px; font-weight:bold; color:#8a5f00; font-size:13px;}
+.ev.past{opacity:.45;}
+.pill{display:inline-block; font-size:11px; border-radius:99px; padding:1px 8px; background:var(--sky-bg); color:#2f5f86; margin-left:4px; vertical-align:middle;}
+.wk-head{display:flex; justify-content:space-between; align-items:center;}
+.wk-head small{color:var(--muted); font-size:12px;}
+.source{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.6;}
 </style>
 </head>
 <body>
@@ -71,7 +116,7 @@ footer{color:var(--muted); font-size:12px; text-align:center; margin:26px 0 0;}
 
 <header class="hero">
   <h1>👨‍👧 パパ育児ガイド<span>〜ママの最高のパートナーになる〜</span></h1>
-  <p>育児のプロ・UXの視点で厳選。今日からできることだけ集めました。</p>
+  <p>助産師・保育士・小児科の標準的なガイドラインをもとに、「今日からできること」だけを厳選。医療的な判断は必ずかかりつけ医へ。</p>
 </header>
 
 <main>
@@ -81,118 +126,418 @@ footer{color:var(--muted); font-size:12px; text-align:center; margin:26px 0 0;}
       <div class="row"><span>今日のできたチェック</span><b id="pct">0%</b></div>
       <div class="bar"><i id="bar"></i></div>
     </div>
+
+    <h2>今のわが子</h2>
+    <div class="card" id="dob-card">
+      <div id="dob-form">
+        <p style="margin-top:0;font-size:14px;">お子さんの誕生日（または出産予定日）を登録すると、月齢に合わせて「今の時期」と「次の予定」を表示します。データはこの端末にだけ保存されます。</p>
+        <div class="dob"><input type="date" id="dob-input"><button id="dob-save">登録</button></div>
+      </div>
+      <div id="dob-view" style="display:none;">
+        <div class="agebox"><b id="age-main"></b><span id="age-sub"></span></div>
+        <p id="age-stage" style="font-size:14px;"></p>
+        <h4>📅 これからの予定（目安）</h4>
+        <div id="events"></div>
+        <div class="dob" style="margin-top:8px;"><button class="ghost" id="dob-edit">誕生日を変更する</button></div>
+      </div>
+    </div>
+
     <h2>パパの心得5か条</h2>
     <div class="card"><h3>① 「手伝う」ではなく「担う」</h3>
-      <p>「手伝おうか？」はNG。「おむつ替えるね」「離乳食作るね」と<b>自分が主体</b>で宣言する。ママは監督ではなくパートナーを求めています。</p></div>
+      <p>「手伝おうか？」はNG。「おむつ替えるね」「今夜の寝かしつけは俺がやる」と<b>自分が主体</b>で宣言する。ママは監督ではなくパートナーを求めています。</p>
+      <div class="tip">💡 <b>プロの視点：</b>担当を持つと「判断」までできるようになる（ミルクの量、服の枚数、受診の要否…）。判断できる人が2人いる家庭は圧倒的に強い。</div></div>
     <div class="card"><h3>② ママの睡眠を最優先で守る</h3>
-      <p>産後の睡眠不足は万病のもと。夜間対応を分担し、週末は<b>ママにまとまった昼寝時間</b>をプレゼントするのが最強の愛情表現。</p></div>
+      <p>産後の睡眠不足は産後うつの最大リスク因子のひとつ。夜間を<b>前半・後半で交代制</b>にする、週末はママに<b>まとまった昼寝時間</b>をプレゼントする、が最強の愛情表現。</p>
+      <div class="tip">💡 <b>具体策：</b>母乳育児でも「22〜2時はパパが搾乳またはミルクで担当、ママは連続4時間眠る」など、<b>連続睡眠</b>を確保する設計を。</div></div>
     <div class="card"><h3>③ 気づいたら即やる・報告する</h3>
       <p>「言われる前にやる」が信頼を積む。やったことは「やったよ」と報告。見えない家事を<b>見える化</b>すると感謝が循環します。</p></div>
-    <div class="card"><h3>④ ママを一人の人間として見る</h3>
-      <p>「ママ」である前に、一人の女性・大人。「今日どうだった？」「何か食べたいものある？」と<b>ママ自身への関心</b>を忘れない。</p></div>
-    <div class="card"><h3>⑤ 完璧を目指さない</h3>
-      <p>泣き止まなくても、離乳食をこぼしてもOK。パパが笑っていることが、子どもの安心とママの余裕につながります。</p></div>
+    <div class="card"><h3>④ 子どもには「応答的」に関わる</h3>
+      <p>泣いたら応える、声を出したら返す、指さしたら一緒に見る。この<b>「応答的な関わり」</b>が愛着（アタッチメント）と言葉・脳の発達の土台。「抱き癖」を心配する必要はありません。</p></div>
+    <div class="card"><h3>⑤ 完璧を目指さない・孤立しない</h3>
+      <p>泣き止まなくても、離乳食をこぼしてもOK。<b>パパ自身の産後うつも約1割</b>に起こります。つらい時は保健センター・#8000・実家・友人、誰かに話すのがプロの選択。</p></div>
     <div class="motto">💡 合言葉：「ありがとう」と「ごめん」は惜しまない。感謝は具体的に、謝罪は言い訳なしで。</div>
+
+    <h2>プロが見る「できるパパ」の共通点</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><b>母子手帳を読んでいる</b>（発達の目安・予防接種・便色カードが全部載っている）</li>
+        <li><b>健診・予防接種の予定を把握</b>し、半分は自分が連れて行く</li>
+        <li><b>「今日の様子」を言える</b>：ミルク量・排便・睡眠・機嫌。受診時に医師が聞くのはこの4つ</li>
+        <li><b>ワンオペを作らない</b>：自分が外出する日はママにも「休みの日」を確保する</li>
+        <li><b>危ないものを先回りで撤去</b>（事故予防は「注意」より「環境」）</li>
+      </ul>
+    </div>
   </section>
 
   <!-- AGE -->
   <section class="page" id="p-age">
-    <h2>年齢別・パパのやること</h2>
-    <div class="card"><span class="age-tag">新生児 0〜2ヶ月</span><h3>🌙 とにかくママの回復が最優先</h3>
-      <ul class="clean"><li>夜間授乳のサポート（ゲップ・おむつ・寝かしつけ担当）</li><li>沐浴・おむつ替えをマスター（回数が信頼になる）</li><li>泣いたら即抱っこ。「抱き癖」は心配無用</li><li>来客・実家対応の窓口はパパが担う</li></ul>
-      <div class="tip">💡 <b>コツ：</b>授乳以外は全部できる。「母乳以外はパパの仕事」くらいの気概で。</div></div>
-    <div class="card"><span class="age-tag">乳児 3〜11ヶ月</span><h3>🍼 生活リズムづくりに参戦</h3>
-      <ul class="clean"><li>離乳食づくり・食べさせを分担（週末まとめ作りが◎）</li><li>お風呂はパパ担当に（スキンシップの宝庫）</li><li>寝かしつけのレパートリーを持つ（抱っこ・トントン・歌）</li><li>ハイハイ期の安全対策（誤飲・転落防止）を主導</li></ul>
-      <div class="tip">💡 <b>コツ：</b>「パパだと寝ない」は慣れの問題。根気よく続けると必ず寝るようになります。</div></div>
-    <div class="card"><span class="age-tag">幼児 1〜3歳</span><h3>🏃 全力で遊ぶ・全力で見守る</h3>
-      <ul class="clean"><li>公園・外遊びはパパの担当に（体力勝負は得意分野）</li><li>イヤイヤ期は「共感→選択肢」の順で対応</li><li>絵本の読み聞かせを日課に（語彙力が伸びる）</li><li>トイトレ・着替えなど自立の練習に付き合う</li></ul>
-      <div class="tip">💡 <b>コツ：</b>叱るより「どうしたかったの？」と気持ちを言語化してあげる。</div></div>
-    <div class="card"><span class="age-tag">3歳〜</span><h3>🌱 社会性と自信を育てる</h3>
-      <ul class="clean"><li>約束は必ず守る（パパへの信頼＝自己肯定感）</li><li>料理・掃除・工作を一緒に（「できた！」体験を量産）</li><li>子どもの話は目を見て最後まで聞く</li><li>ママと意見が割れたら子どもの前で対立しない</li></ul></div>
+    <h2>発達と年齢別・パパのやること</h2>
+    <p class="lead">発達の目安は「平均」であり、前後数か月の個人差は正常です。心配なときは健診や保健センターで相談を。</p>
+
+    <div class="card age" data-min="0" data-max="3"><span class="now-badge">今ここ</span><span class="age-tag">新生児 0〜2ヶ月</span><h3>🌙 ママの回復と、赤ちゃんの安全が最優先</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>音に反応する、顔をじっと見る、動くものを目で追い始める</li><li>2ヶ月頃：あやすと笑う「社会的微笑」、「あー」「うー」の声</li><li>体重は1日25〜30g増が目安（生後3ヶ月で出生時の約2倍）</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>夜間対応（ゲップ・おむつ・寝かしつけ・ミルク）を担当し、ママの<b>連続睡眠</b>を作る</li><li>沐浴・おむつ替えをマスター（回数が信頼になる）</li><li>泣いたら即応える。抱き癖は心配無用</li><li>来客・実家・行政手続き（出生届14日以内、児童手当、健康保険、医療費助成）の窓口はパパ</li><li>「こんにちは赤ちゃん訪問」（生後4ヶ月までの保健師・助産師訪問）に同席し、質問を用意しておく</li></ul>
+      <h4>この時期の安全</h4>
+      <div class="ng">⛔ <b>SIDS（乳幼児突然死症候群）予防の3か条</b>：①1歳までは<b>あおむけ</b>で寝かせる ②できるだけ母乳 ③周囲の<b>禁煙</b>。加えて、硬めの敷布団・顔まわりに柔らかい物を置かない・掛け布団よりスリーパー・<b>同室別床</b>が推奨です。</div>
+      <div class="ng">⛔ <b>絶対に揺さぶらない</b>。泣き止まなくて限界のときは、安全な場所にあおむけで置いて別室で深呼吸。数分離れても赤ちゃんは大丈夫。</div>
+      <div class="tip">💡 <b>コツ：</b>生後2週〜2ヶ月は「理由なく泣く」のがピークで、夕方〜夜に集中します（生理的な現象）。授乳以外は全部できる。「母乳以外はパパの仕事」くらいの気概で。</div>
+      <details><summary>受診・手続きメモ</summary>
+        <ul class="clean"><li>1ヶ月健診（産院）／ママの産後2週間・1ヶ月健診にも同行</li><li>生後2ヶ月の誕生日が<b>ワクチンデビュー</b>（ロタ・B型肝炎・肺炎球菌・5種混合）。ロタ1回目は生後14週6日までに</li><li>うんちの色は母子手帳の<b>便色カード</b>で毎回確認。白〜淡い黄色は即受診（胆道閉鎖症の早期発見）</li><li>体温の平熱は36.5〜37.5℃。<b>3ヶ月未満で38℃以上は夜でも即受診</b></li></ul>
+      </details>
+    </div>
+
+    <div class="card age" data-min="3" data-max="6"><span class="now-badge">今ここ</span><span class="age-tag">3〜5ヶ月</span><h3>🌤️ 首すわり・寝返り、生活リズムの芽</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>3〜4ヶ月：首がすわる、手を見つめる・口に持っていく、声を出して笑う</li><li>5〜6ヶ月：寝返り（ここから<b>転落事故</b>が急増）</li><li>昼夜の区別がつき始め、夜まとまって眠る時間が延びる</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>起きている時間に<b>うつぶせ遊び</b>（必ず見守り、寝かせるのはあおむけ）</li><li>「ねんねルーティン」を作る：お風呂→授乳→絵本や歌→暗い部屋、を<b>毎日同じ順番・同じ時間</b>で</li><li>お風呂をパパ担当に固定（大人と一緒の入浴はOK。上がったら5分以内に保湿）</li><li>語りかけ・歌・ガラガラ。赤ちゃんの声に「そうだね〜」と<b>返す</b>のが最高の知育</li><li>3〜4ヶ月健診はパパが連れて行く</li></ul>
+      <div class="ng">⛔ ソファ・ベッド・おむつ替え台からの転落が多発。<b>手を離すなら床に置く</b>。抱っこ紐の前かがみ・バックル外れにも注意。</div>
+      <div class="tip">💡 <b>離乳食の準備：</b>5〜6ヶ月で開始。サインは「首すわり」「支えると座れる」「スプーンを舌で押し出さない」「食べ物に興味」。開始前に赤ちゃん用スプーン・製氷皿・ブレンダーをパパが揃える。</div>
+    </div>
+
+    <div class="card age" data-min="6" data-max="9"><span class="now-badge">今ここ</span><span class="age-tag">6〜8ヶ月</span><h3>🍼 離乳食スタート、人見知り、夜泣き</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>7〜8ヶ月：ひとり座り、ずりばい→ハイハイの準備</li><li>人見知り・後追いが始まる（愛着形成が順調な証拠）</li><li>「ばばば」「まんまん」など繰り返しの喃語</li><li>歯が生え始める（6〜9ヶ月頃。個人差大）</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>離乳食づくり・食べさせを担当（週末にまとめて冷凍が◎）</li><li>初めての食材は<b>平日午前・1さじ</b>から（何かあれば病院が開いている時間に）</li><li>7〜8ヶ月から2回食。舌でつぶせる固さ（絹豆腐くらい）</li><li>歯が生えたらガーゼで拭く→歯ブラシへ。<b>寝る前の仕上げ磨き</b>をパパの日課に</li><li>夜泣きピーク期。「夜泣き対応はパパ」と決めた曜日を作る</li></ul>
+      <div class="ng">⛔ <b>誤飲対策を開始：</b>3歳児の口は直径約4cm（トイレットペーパーの芯を通る物は全部飲める）。ボタン電池・磁石・タバコ・薬・洗剤・化粧品は<b>床から1m以上</b>に。</div>
+      <div class="ng">⛔ <b>1歳未満にはちみつ禁止</b>（乳児ボツリヌス症）。黒糖・コーンシロップも避ける。牛乳を飲み物として与えるのは1歳以降。</div>
+      <div class="tip">💡 <b>卵アレルギー予防：</b>2019年改定の国のガイドでは、卵は6ヶ月頃から固ゆで卵黄を耳かき1さじ程度から始めることが推奨されています（遅らせるほど予防になるわけではない）。湿疹がある場合は開始前に小児科へ相談。</div>
+    </div>
+
+    <div class="card age" data-min="9" data-max="12"><span class="now-badge">今ここ</span><span class="age-tag">9〜11ヶ月</span><h3>🧗 つかまり立ち、指さし、家中が冒険エリア</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>ハイハイ、つかまり立ち、つたい歩き</li><li>指さし、バイバイ・パチパチのまね、「ダメ」が分かり始める</li><li>「まんま」「ぶーぶー」のような意味のある発声の芽</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>9ヶ月頃から3回食。<b>手づかみ食べ</b>を存分にさせる（汚れる＝食べる力の練習。新聞紙・レジャーシートで対策）</li><li>指さしには「わんわんだね」と<b>言葉を添えて一緒に見る</b>（共同注意＝言葉の土台）</li><li>安全対策を主導：階段・キッチンにゲート、コンセントカバー、家具の角ガード、引き出しロック</li><li>9〜10ヶ月健診に同行</li></ul>
+      <div class="ng">⛔ <b>浴槽・洗濯機の残し湯を抜く</b>（水深10cmでも溺れる）。<b>炊飯器・ポット・テーブルクロス</b>はやけどの三大原因。窓・ベランダに踏み台になるものを置かない。</div>
+      <div class="tip">💡 <b>コツ：</b>「パパだと寝ない」は慣れの問題。3〜7日連続で同じ手順を続けると必ず寝るようになります。フォローアップミルクは基本的に不要（医師の指示がある場合を除く）。</div>
+    </div>
+
+    <div class="card age" data-min="12" data-max="18"><span class="now-badge">今ここ</span><span class="age-tag">1歳〜1歳半</span><h3>🚶 歩き始め、初めての言葉、離乳完了へ</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>ひとり歩き（12〜15ヶ月が多いが18ヶ月までは正常範囲）</li><li>意味のある単語1〜3語、指さしで要求、簡単な指示が分かる</li><li>積み木を2個重ねる、コップで飲む</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>12〜18ヶ月で離乳完了。1日3回＋おやつ1〜2回。牛乳OK、コップ飲み・スプーン練習</li><li>卒乳・断乳は家族の選択。無理にやめる必要はなし。夜間授乳を減らす担当はパパの出番</li><li>1歳の予防接種ラッシュ（MR・水痘・ヒブと肺炎球菌の追加・おたふく〈任意〉）を予約・同行</li><li>1歳6ヶ月健診の準備（言葉・歩行・指さしをメモ）</li><li>外遊びデビュー：公園はパパの担当に</li></ul>
+      <div class="ng">⛔ <b>窒息食材：</b>硬い豆・ナッツ類は<b>5歳以下NG</b>（消費者庁）。ぶどう・ミニトマトは<b>4等分</b>、餅・こんにゃくゼリー・飴は与えない。食事中は座る・歩かせない・驚かせない。</div>
+      <div class="ng">⛔ <b>チャイルドシートは6歳未満義務</b>。首すわり後も体格が許す限り後ろ向き。車内放置は数分でも命の危険。</div>
+      <div class="tip">💡 <b>メディア：</b>日本小児科医会は<b>2歳までテレビ・動画視聴は控える</b>ことを提言。授乳・食事中はテレビを消す。動画より「実況中継」（子どもの行動を言葉にする）が言葉を育てます。</div>
+    </div>
+
+    <div class="card age" data-min="18" data-max="36"><span class="now-badge">今ここ</span><span class="age-tag">1歳半〜3歳</span><h3>🏃 イヤイヤ期は「脳の仕様」。全力で遊び、全力で見守る</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>2歳：二語文（「ママ きた」）、走る、階段を登る、「自分で！」</li><li>2歳半〜3歳：三語文、ごっこ遊び、友達に興味、簡単な質問に答える</li><li>感情のブレーキ役（前頭前野）は未発達＝<b>癇癪は正常な発達</b></li></ul>
+      <h4>イヤイヤ期のプロ対応</h4>
+      <ol class="steps"><li><b>予告</b>：「あと1回すべったら帰ろう」と切り替えの前に伝える</li><li><b>共感</b>：「まだ遊びたかったんだね」と気持ちを言葉にする</li><li><b>選択肢</b>：「赤い靴と青い靴、どっちにする？」2択で主導権を渡す</li><li><b>待つ</b>：安全を確保して収まるのを待つ。落ち着いてから短く伝える</li><li><b>肯定文</b>：「走らない」より「歩こうね」。「ダメ」は命の危険のときだけ</li></ol>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>外遊び（幼児期は<b>毎日60分以上</b>体を動かすのが国の指針）</li><li>絵本を1日1冊以上（語彙・集中力・親子の愛着）</li><li>トイレトレーニング：おしっこ間隔2時間以上・言葉で伝えられる・自分で歩ける、が開始サイン。夏が楽。失敗は絶対に叱らない</li><li>仕上げ磨き（1日1回は寝る前に必ず。フッ素入り歯磨き粉は米粒サイズ）</li><li>3歳児健診の準備（家で視力・聴力の事前チェックがある）</li></ul>
+      <div class="ng">⛔ <b>叩く・怒鳴る・閉じ込めるなどの体罰は法律で禁止</b>（2020年施行）。効果は一時的で、攻撃性や自己肯定感の低下につながることが研究で示されています。</div>
+      <div class="tip">💡 <b>ほめ方：</b>結果（「すごい」）より過程・行動（「最後まで自分で靴はけたね」）を具体的に。叱るときは人格ではなく行動を、短く、その場で。</div>
+    </div>
+
+    <div class="card age" data-min="36" data-max="999"><span class="now-badge">今ここ</span><span class="age-tag">3歳〜就学前</span><h3>🌱 社会性と自信を育てる</h3>
+      <h4>発達の目安</h4>
+      <ul class="clean"><li>3歳：会話ができる、片足立ち、はさみ、簡単なルールのある遊び</li><li>4〜5歳：友達と協力する遊び、「なぜ？」の質問期、ひらがなへの興味</li><li>就寝は20〜21時、睡眠は10〜13時間（昼寝含む）が目安</li></ul>
+      <h4>パパの担当</h4>
+      <ul class="clean"><li>約束は必ず守る（パパへの信頼＝自己肯定感の土台）</li><li>料理・掃除・工作を一緒に（「できた！」体験を量産。失敗もOKの空気）</li><li>子どもの話は<b>目線を合わせて</b>最後まで聞く。「それでどうなったの？」で続きを促す</li><li>ママと意見が割れても子どもの前で対立しない。あとで2人で話す</li><li>年長でMR2期、3歳で日本脳炎。就学前健診・保活・学童の情報収集</li></ul>
+      <div class="info">🔒 <b>安全教育：</b>「プライベートゾーン（口・胸・性器・おしり）は自分だけの大切な場所」「嫌なことは『いや』と言っていい」「秘密にしようと言われたら親に話す」を3歳から日常会話で伝える。</div>
+      <div class="tip">💡 <b>スクリーンタイム：</b>WHOは2〜4歳は1日1時間以内を推奨。時間より「一緒に見て会話する」かどうかが影響を左右します。</div>
+    </div>
+  </section>
+
+  <!-- CARE SKILLS -->
+  <section class="page" id="p-care">
+    <h2>お世話の技（実技）</h2>
+    <p class="lead">助産師が新生児室で教える基本手順。回数をこなせば必ず上手くなります。</p>
+
+    <div class="card"><h3>🍼 ミルクの作り方と飲ませ方</h3>
+      <ol class="steps"><li>手を洗い、清潔な哺乳瓶に<b>70℃以上のお湯</b>を必要量の半分入れる（WHO推奨。粉に混入しうる菌を殺す）</li><li>粉を正確に計って溶かし、残りのお湯を足す</li><li>流水で<b>人肌（37℃前後）</b>まで冷ます。手首の内側に垂らして熱くなければOK</li><li>頭を少し高く抱き、乳首にミルクが満たされる角度で。<b>20分以内</b>を目安に</li><li>途中と最後にゲップ。飲み残しは<b>捨てる</b>（作って2時間以内に使わなかった分も捨てる）</li></ol>
+      <details><summary>1回量・回数の目安（製品表示が優先）</summary>
+        <table class="t"><tr><th>〜2週</th><td>80ml前後 × 7〜8回</td></tr><tr><th>1ヶ月</th><td>100〜120ml × 6〜7回</td></tr><tr><th>2〜3ヶ月</th><td>140〜160ml × 6回</td></tr><tr><th>4〜5ヶ月</th><td>200ml × 5回</td></tr></table>
+        <p>母乳は欲しがるだけ（1日8〜12回が普通）。<b>おしっこが1日6回以上</b>あれば水分は足りています。</p>
+      </details>
+      <details><summary>哺乳瓶の消毒・液体ミルク</summary>
+        <ul class="clean"><li>消毒（煮沸・薬液・電子レンジ）は生後3ヶ月頃まではしっかり。それ以降は十分な洗浄・乾燥で可</li><li>液体ミルクは常温でそのまま飲める。夜間・外出・<b>災害備蓄</b>に常備を</li></ul>
+      </details>
+    </div>
+
+    <div class="card"><h3>😮‍💨 ゲップと吐き戻し</h3>
+      <ul class="clean"><li>縦抱きで肩に乗せ、背中を<b>下から上に</b>さすったり軽くトントン</li><li>出なくても5分で切り上げてOK。あおむけで顔を横向きに</li><li>少量の吐き戻し（口からだらっと）は胃の形の問題でほぼ全員に起こる正常な現象</li></ul>
+      <div class="ng">⛔ <b>受診：</b>噴水のように勢いよく吐く／緑色・血が混じる／体重が増えない／吐いた後もぐったり</div>
+    </div>
+
+    <div class="card"><h3>🧷 おむつ替え</h3>
+      <ol class="steps"><li>新しいおむつ・おしりふき・ゴミ袋を<b>手が届く所に</b>準備してから始める</li><li>男の子は上にタオル（飛ぶ）。女の子は<b>前から後ろ</b>に拭く。しわ・袋の裏まで</li><li>うんちの後、赤みがあれば拭かず<b>ぬるま湯で洗い流す</b>（シャワー or 霧吹き）。乾かしてから閉じる</li><li>ギャザーを外側に立てる。おへそが乾くまでは前を折り返す</li><li>1日10回前後の交換。<b>高い所で替えるときは絶対に手を離さない</b></li></ol>
+      <div class="tip">💡 <b>おむつかぶれ：</b>こすらない・洗い流す・乾かす・保護クリーム。3日改善しない、白いブツブツ（カンジダ）なら受診。</div>
+    </div>
+
+    <div class="card"><h3>🛁 沐浴・お風呂</h3>
+      <ol class="steps"><li>準備：室温24〜26℃、湯温<b>38〜40℃</b>（夏低め・冬高め）。着替え・おむつ・タオル・保湿剤を広げてから</li><li>ガーゼで体を覆い、<b>足からゆっくり</b>入れる。頭と首をしっかり支える</li><li>順番：目→顔→頭→首→わき→腕・手→お腹→足→背中→お股。<b>しわを開いて</b>泡で優しく</li><li><b>10分以内</b>に上がり、上がり湯をかける</li><li>タオルで押し拭き→<b>5分以内に全身保湿</b>→耳・鼻の入口だけ綿棒→おへその水気を拭く</li></ol>
+      <div class="tip">💡 <b>プロの視点：</b>新生児期からの毎日の保湿は、皮膚バリアを守りアトピー性皮膚炎の発症リスクを下げる研究があります。「保湿までがお風呂」と覚える。</div>
+      <div class="ng">⛔ 浴室では<b>目を離さない・手を離さない</b>。パパが体を洗う間は脱衣所のバウンサーやバスチェアで待機。入浴後の浴槽は必ず水を抜く。</div>
+    </div>
+
+    <div class="card"><h3>🤱 抱っこと抱っこ紐</h3>
+      <ul class="clean"><li>横抱き：首とおしりを支え、頭が少し高く。縦抱きも首すわり前からOK（頭と首を手で支える）</li><li>抱っこ紐は<b>月齢・体重の下限を確認</b>。首すわり前は新生児インサート必須</li><li>乗せ降ろしは<b>低い姿勢・ベッドの上で</b>。前かがみで転落する事故が多発</li><li>ゆらゆらはOK、<b>揺さぶりは絶対NG</b>（乳幼児揺さぶられ症候群）</li></ul>
+    </div>
+
+    <div class="card"><h3>😭 泣き止まないときの5ステップ</h3>
+      <ol class="steps"><li><b>5つの確認</b>：お腹すいた？おむつ？暑い・寒い？眠い？ゲップ？</li><li><b>5S</b>：おくるみ（首すわり前・股は自由に）／横向きに抱く／「シーッ」やホワイトノイズ／ゆらゆら／おしゃぶりや指を吸わせる</li><li>縦抱きで歩く、外の空気、明かりを落とす、いっそ静かな部屋へ</li><li>10分で泣き止まなくても<b>あなたのせいではない</b>。生後2週〜2ヶ月は理由なく泣く時期</li><li><b>限界を感じたら</b>：安全な場所にあおむけで置き、別室で深呼吸。ママや家族に交代を頼む。誰にも言えない時は #8000 や保健センターへ</li></ol>
+      <div class="ng">⛔ 泣き方が明らかに普段と違う（甲高い・弱々しい）、発熱、嘔吐、ぐったり、哺乳量が半分以下 → 受診</div>
+    </div>
+
+    <div class="card"><h3>😴 寝かしつけの設計図</h3>
+      <h4>1. 眠いサインを逃さない</h4>
+      <p>あくび・目をこする・ぼーっとする・ぐずり始め。この<b>「眠いのに寝られない」前</b>に寝かせるのが最大のコツ。</p>
+      <details><summary>連続して起きていられる時間の目安</summary>
+        <table class="t"><tr><th>0〜1ヶ月</th><td>約40分〜1時間</td></tr><tr><th>2〜3ヶ月</th><td>1〜1.5時間</td></tr><tr><th>4〜5ヶ月</th><td>1.5〜2時間</td></tr><tr><th>6〜8ヶ月</th><td>2〜3時間</td></tr><tr><th>9〜12ヶ月</th><td>2.5〜4時間</td></tr><tr><th>1〜2歳</th><td>4〜6時間（昼寝1回へ）</td></tr></table>
+        <p>1日の総睡眠の目安：4〜12ヶ月 12〜16時間／1〜2歳 11〜14時間／3〜5歳 10〜13時間（昼寝含む）</p>
+      </details>
+      <h4>2. 環境を整える</h4>
+      <ul class="clean"><li>室温：夏26〜28℃／冬20〜23℃、湿度50〜60%。服は大人より1枚少なめ（新生児期は同じ〜1枚多め）</li><li>暗く・静かに（ホワイトノイズは可）。寝る1時間前から画面を消す</li><li>硬めのマットレス、顔まわりに何も置かない、スリーパー。<b>1歳までは同室別床</b>が推奨</li></ul>
+      <h4>3. 毎日同じ「ねんねルーティン」</h4>
+      <p>お風呂→授乳・ミルク→歯みがき→絵本1冊→「おやすみ」の決まり文句→消灯。<b>順番と言葉を固定</b>すると体が眠る準備をします。</p>
+      <h4>4. 置き方</h4>
+      <p>眠りが深くなる（腕がだらんと落ちる）のを待ち、<b>おしりから→背中→頭</b>の順に降ろす。降ろした後も胸に手を当てて30秒。起きたらトントンで再挑戦。</p>
+      <div class="tip">💡 <b>プロの視点：</b>「パパだと泣く」は当たり前のスタート地点。同じ手順で3〜7日続けると、赤ちゃんの側が「パパの寝かしつけ」を学習します。途中でママに交代すると学習がリセットされるので、やるなら任せきる約束を。</div>
+    </div>
+
+    <div class="card"><h3>🦷 歯みがき・仕上げ磨き</h3>
+      <ul class="clean"><li>最初の歯が生えたらスタート。まずガーゼで拭く→乳児用歯ブラシ</li><li>フッ素入り歯磨き粉：歯が生えてから2歳は<b>米粒程度</b>、3〜5歳は<b>グリーンピース程度</b>（濃度900〜1000ppm）</li><li>膝の上にあおむけで頭を固定、上唇の裏のすじ（上唇小帯）を指でガードして磨く</li><li><b>仕上げ磨きは小学校中学年まで</b>。寝る前1回は絶対に省かない</li><li>ジュース・スポーツドリンク・イオン飲料の常用はむし歯の最大要因。飲み物は水・麦茶</li></ul>
+    </div>
+
+    <div class="card"><h3>🩹 その他のケア</h3>
+      <details><summary>爪切り</summary><p>寝ている時にベビー用爪切りで。週1〜2回、角を少し残して丸く。深爪NG。</p></details>
+      <details><summary>鼻づまり・鼻水</summary><p>鼻吸い器（電動が楽）、蒸しタオルや入浴後に。生理食塩水スプレーも有効。鼻づまりで<b>ミルクが飲めない・呼吸が苦しそう</b>なら受診。</p></details>
+      <details><summary>体温の測り方</summary><p>わきの下で。平熱は36.5〜37.5℃。食後・泣いた後・厚着では高く出るので、落ち着いてから測り直す。<b>元気な時の平熱を知っておく</b>のが一番役立つ。</p></details>
+      <details><summary>薬の飲ませ方</summary><ul class="clean"><li>シロップ：スポイトで頬の内側へ少しずつ。空腹時のほうが吐きにくいことも</li><li>粉薬：数滴の水で練って上あご・頬の内側に塗り、その後ミルクや水を飲ませる</li><li><b>ミルクに混ぜない</b>（ミルク嫌いになる）。1歳以降はゼリーやアイスに混ぜてOK</li><li>坐薬：先端を水で濡らし、入れた後1分ほどおしりを押さえる</li></ul></details>
+      <details><summary>うんち・おしっこのチェック</summary><ul class="clean"><li>色は母子手帳の<b>便色カード</b>で確認。白・灰白色・黒・赤は受診</li><li>母乳の子は回数のばらつきが大きい（1日8回〜3日に1回まで正常範囲）。機嫌よく飲めていれば様子見</li><li>おしっこが半日出ない・色が濃い → 脱水のサイン</li></ul></details>
+      <details><summary>服の枚数・暑さ寒さ</summary><p>手足が冷たいのは正常。<b>背中や首の汗</b>で判断する。外出時は着脱しやすい重ね着。車内・ベビーカー内は地面近くで大人より3〜5℃暑いと考える。</p></details>
+    </div>
   </section>
 
   <!-- MAMA -->
   <section class="page" id="p-mama">
     <h2>ママへの適切な対応</h2>
+    <p class="lead">産後の体と心に何が起きているかを知ることが、すべての対応の出発点です。</p>
+
+    <div class="card"><h3>🩺 産後の体：産褥期（6〜8週）に起きていること</h3>
+      <ul class="clean"><li>子宮が元に戻る痛み（後陣痛）、悪露（出血）が数週間続く。会陰や帝王切開の傷の痛み</li><li>「床上げ3週間」は医学的にも妥当。<b>産後1ヶ月は「寝る・授乳・食べる」以外はパパと家族の仕事</b></li><li>骨盤底筋のゆるみ（くしゃみで尿もれ）、腱鞘炎、腰痛、貧血、抜け毛（3〜6ヶ月頃）はよくある</li><li>授乳中の乳房の痛み＋38.5℃以上の発熱は<b>乳腺炎</b>。授乳は続け、早めに助産師・産婦人科へ</li><li>生理再開前でも妊娠は可能。<b>避妊は産後早期に2人で相談</b>（次の妊娠までは18ヶ月以上あけることが推奨）</li></ul>
+      <div class="tip">💡 <b>パパの担当：</b>産後2週間健診・1ヶ月健診に同行。ママの受診予定・服薬・体調を「知っている人」になる。</div>
+    </div>
+
+    <div class="card"><h3>🧠 産後の心：マタニティブルーズと産後うつ</h3>
+      <ul class="clean"><li><b>マタニティブルーズ</b>：産後3〜10日に涙もろさ・不安。ホルモン急変による生理現象で、2週間以内に自然に落ち着く</li><li><b>産後うつ</b>：ママの10〜15%に起こり、産後2週〜3ヶ月が発症ピーク。<b>パパも約1割</b></li><li>サイン（2週間以上続く）：赤ちゃんが寝ていても眠れない／食欲がない／「母親失格」と言う／楽しめない／赤ちゃんに関心が持てない／自分や子を傷つける考え</li></ul>
+      <div class="ng">⛔ <b>上のサインがあれば「様子見」しない。</b>産婦人科・かかりつけ医・保健センターの子育て総合相談窓口へパパが連絡する。「死にたい」「消えたい」が出たら即日受診。</div>
+      <div class="tip">💡 <b>パパのメンタル：</b>パパの産後うつは「妻の産後うつ」「睡眠不足」「孤立」が主なリスク。自分が眠れているか・笑えているかも定期チェック。</div>
+    </div>
+
     <div class="card"><h3>💬 言っていいこと・悪いこと</h3>
       <p><b>◎ 魔法の言葉</b></p>
-      <ul class="clean"><li>「いつもありがとう」「助かってるよ」</li><li>「大変だったね、今日どうだった？」</li><li>「少し休んでおいで、こっちは任せて」</li><li>「君が頑張ってるの分かってるよ」</li></ul>
+      <ul class="clean"><li>「いつもありがとう」「助かってるよ」（<b>何が</b>助かったか具体的に）</li><li>「大変だったね、今日どうだった？」（解決策より先に共感）</li><li>「少し休んでおいで、こっちは任せて」（そして本当に任せてもらえる状態を作る）</li><li>「一緒に考えよう」（育児の悩みは<b>2人の課題</b>）</li></ul>
       <div class="ng">⛔ <b>地雷ワード</b><ul class="clean">
         <li>「俺より楽でしょ？」「一日家にいるのに」</li>
-        <li>「（泣いてる子に）ママがいいんだね」</li>
-        <li>「やり方が違うよ」（まず感謝→提案の順で）</li>
-        <li>「疲れてるのはお互いさまだよ」</li></ul></div></div>
-    <div class="card"><h3>🧠 産後の心と体を知る</h3>
-      <ul class="clean"><li>ホルモン変化で涙もろく・イライラしやすいのは<b>生理現象</b>。人格否定と受け取らない</li><li>産後うつのサイン（2週間以上の不眠・食欲低下・無気力）は<b>早めに受診</b>を促す</li><li>「一人時間」の確保は贅沢ではなく<b>必要経費</b></li><li>実母・義母との板挟みはパパが盾になる（特に義母対応は夫の仕事）</li></ul></div>
-    <div class="card"><h3>🎁  weekly ミッション</h3>
-      <ul class="clean"><li>週1回、ママに<b>2時間のフリータイム</b>を作る</li><li>月1回、2人きりの時間（子を預けて外食など）</li><li>ママの誕生日・母の日は子どもと一緒に準備</li><li>健診・予防接種のスケジュールも把握する</li></ul></div>
+        <li>「（泣いてる子に）ママがいいんだね」（→自分で寝かしつけを続ける）</li>
+        <li>「やり方が違うよ」（→まず感謝、それから「こういうやり方もあるって」と提案）</li>
+        <li>「疲れてるのはお互いさま」「俺も手伝ってるじゃん」</li>
+        <li>「母乳出てる？」「ミルクにしたら？」（授乳方法はママと医療者が決める。パパは<b>どちらでも全面支持</b>）</li></ul></div>
+      <details><summary>プロが使う会話のコツ</summary>
+        <ul class="clean"><li><b>共感→確認→提案</b>の順。アドバイスを求められていない時はアドバイスしない</li><li>「私メッセージ」：「なんでやってないの」ではなく「俺が先にやっておけばよかった、次からこうしよう」</li><li>週1回15分の<b>夫婦ミーティング</b>：今週きつかったこと／来週の予定と分担／お互いへの感謝1つ</li><li>家事育児は<b>タスク表・共有アプリで見える化</b>。「名もなき家事」（詰め替え・在庫管理・保育園の書類・予防接種の予約）も項目に</li></ul>
+      </details>
+    </div>
+
+    <div class="card"><h3>👶 産後パパ育休を「戦力」として使う</h3>
+      <ul class="clean"><li><b>産後パパ育休（出生時育児休業）</b>：子の出生後8週間以内に<b>最大28日</b>、2回に分割可。申出は原則2週間前まで</li><li><b>通常の育休</b>：1歳まで（保育園に入れない等で最長2歳）、2回に分割可。パパ・ママそれぞれ取得可能</li><li><b>2025年4月〜</b>：夫婦とも14日以上育休を取ると、最初の28日間は給付率80%（非課税・社会保険料免除のため<b>手取りは実質10割相当</b>）</li></ul>
+      <div class="tip">💡 <b>育休中の心得：</b>「休暇」ではなく「家事9割・夜間対応・上の子担当」の主担当期間。ママが日中に連続睡眠を取れる設計を最優先に。取得前に会社と<b>引き継ぎ・復帰後の働き方</b>も相談しておく。</div>
+    </div>
+
+    <div class="card"><h3>🏡 里帰り・実家・義実家</h3>
+      <ul class="clean"><li>里帰り中は<b>毎日連絡＋写真</b>、週末は通う。帰ってきたときに「生活が整った家」で迎える（掃除・買い出し・赤ちゃんスペース）</li><li>義母への対応はパパの仕事。ママの負担になる訪問・アドバイスは<b>パパが盾</b>になって調整</li><li>実母・義母の育児知識は一世代前（うつぶせ寝・果汁・はちみつ等）。「今はこう変わったんだって」と<b>パパが伝える</b></li></ul>
+    </div>
+
+    <div class="card"><h3>🎁 weekly ミッション</h3>
+      <ul class="clean"><li>週1回、ママに<b>2時間のフリータイム</b>を作る（家にいてもOK、寝てもOK）</li><li>月1回、2人きりの時間（子を預けて外食、家で映画でも）</li><li>ママの<b>復職・キャリア</b>の話を聞く。保活（名古屋市の4月入園は前年秋に一次申込。区役所民生子ども課）はパパが情報収集</li><li>健診・予防接種のスケジュールを共有カレンダーに入れる</li><li>ママの誕生日・母の日は子どもと一緒に準備</li></ul>
+    </div>
+
+    <div class="card"><h3>🏥 名古屋市のママ支援を使う</h3>
+      <ul class="clean"><li><b>産後ケア事業「なごやMommy Care⁺」</b>：宿泊型・通所型・訪問型で助産師のケア・授乳指導・休息が受けられる。出産後1年以内、1回の出産につき7日分。電子申請→利用券→事業所へ予約</li><li><b>子育て総合相談窓口</b>（各区保健センター）：平日8:45〜17:15。母子手帳交付から産後うつ・発達相談まで何でも。相談無料・秘密厳守</li><li><b>育児もしもしキャッチ</b> <a href="tel:0562430555">0562-43-0555</a>：火〜木 17:00〜21:00（あいち小児保健医療総合センター）</li></ul>
+      <div class="tip">💡 <b>プロの視点：</b>「使うのは申し訳ない」と思うママが多い。<b>パパが調べて申請まで</b>やると利用率が上がります。</div>
+    </div>
   </section>
 
   <!-- CHECK -->
   <section class="page" id="p-check">
     <h2>今日のできたチェック</h2>
-    <p style="color:var(--muted);font-size:13px;">タップでチェック。記録はこのiPhoneに保存されます。</p>
+    <p class="lead">タップでチェック。記録はこの端末に保存され、日付が変わるとリセットされます。</p>
     <div class="card" id="checklist"></div>
+
+    <div class="card">
+      <div class="wk-head"><h3 style="margin:0;">🗓️ 今週のミッション</h3><small id="wk-label"></small></div>
+      <div id="weekly"></div>
+    </div>
+
     <div class="card"><h3>🏠 パパの定番タスク</h3>
-      <ul class="clean"><li>🛁 お風呂入れ（→保湿・着替えまでがセット）</li><li>🍼 ミルク・離乳食の準備と後片付け</li><li>🧷 おむつ替え・着替え</li><li>🧺 洗濯（干す→畳む→しまうまで）</li><li>🍳 夕食づくり or 買い出し</li><li>🧹 掃除機・トイレ掃除・ゴミ出し</li><li>📕 寝かしつけ・読み聞かせ</li></ul>
-      <div class="tip">💡 <b>鉄則：</b>「名もなき家事」（詰め替え・ゴミ袋セット・連絡帳記入…）に気づけるパパは最強。</div></div>
+      <ul class="clean"><li>🛁 お風呂入れ（→保湿・着替え・爪チェックまでがセット）</li><li>🍼 ミルク・離乳食の準備と後片付け・在庫管理</li><li>🧷 おむつ替え・着替え・おむつの在庫とサイズアップ判断</li><li>🧺 洗濯（干す→畳む→しまうまで）</li><li>🍳 夕食づくり or 買い出し</li><li>🧹 掃除機・トイレ掃除・ゴミ出し</li><li>📕 寝かしつけ・読み聞かせ・仕上げ磨き</li><li>📅 健診・予防接種の予約、保育園の書類</li></ul>
+      <div class="tip">💡 <b>鉄則：</b>「名もなき家事」（詰め替え・ゴミ袋セット・連絡帳記入・サイズアウトした服の整理…）に気づけるパパは最強。</div></div>
+
+    <div class="card"><h3>📝 受診のときに聞かれる4項目</h3>
+      <p>毎日ざっくり把握しておくと、夜間に迷ったとき・受診時に即答できます。</p>
+      <ul class="clean"><li>🍼 <b>飲んだ量・食べた量</b>（普段の何割か）</li><li>💩 <b>おしっこ・うんち</b>（回数・色・下痢や血）</li><li>😴 <b>睡眠</b>（寝られているか、眠りすぎていないか）</li><li>😊 <b>機嫌</b>（あそぶか、目が合うか、ぐったりしていないか）</li></ul>
+    </div>
   </section>
 
   <!-- SOS -->
   <section class="page" id="p-sos">
     <h2>いざという時</h2>
+    <p class="lead">迷ったら電話。「呼ぶべきか迷う」時点で相談してよい、が救急の常識です。</p>
+
     <div class="sos"><h3>📞 小児救急電話相談 #8000</h3>
       <p>夜間・休日の子どもの急病時に看護師・小児科医に相談できます。迷ったらまず電話。</p>
-      <a href="tel:#8000">#8000 にかける</a>
-      <p>愛知：毎日 19:00〜翌朝8:00（#8000が繋がらない時は <a href="tel:0529629900">052-962-9900</a>）</p></div>
+      <a href="tel:%238000">#8000 にかける</a>
+      <p>愛知県：平日 19:00〜翌8:00／土日祝・年末年始 8:00〜翌8:00<br>#8000が繋がらない時は <a class="sm" href="tel:0529629900">052-962-9900</a></p></div>
     <div class="sos" style="background:#1f4a3a;"><h3>🏥 名古屋市 子どもあんしん電話相談</h3>
-      <p>名古屋市医師会の夜間電話相談。#8000と合わせて覚えておくと安心。</p>
-      <p>平日 20:00〜24:00／土日祝・年末年始 18:00〜24:00<br>※番号は名古屋市医師会HPで確認</p></div>
+      <p>名古屋市医師会急病センター内の看護師が、応急手当・見守り方・受診の必要性を助言。</p>
+      <a href="tel:0529331174">052-933-1174</a>
+      <p>平日 20:00〜24:00／土日祝・年末年始 18:00〜24:00</p></div>
+    <div class="sos" style="background:#2d3e5c;"><h3>🌙 名古屋市医師会急病センター（夜間・休日の小児科）</h3>
+      <p>東区葵1-4-38　<a class="sm" href="tel:0529377821">052-937-7821</a></p>
+      <ul><li>平日：小児科は 23:30〜翌6:00（19:30〜23:30 の受診希望は<b>必ず事前に電話</b>）</li><li>土曜：17:30〜翌6:00（小児科医は 17:30〜23:00）</li><li>休日：9:30〜12:00／13:00〜16:30／17:30〜翌6:00（小児科医は 20:30 まで）</li></ul>
+      <p>※受付時間。診療開始は受付開始の30分後。最新情報は名古屋市HP「救急受診ガイド」で確認。</p></div>
     <div class="sos" style="background:#4a2b26;"><h3>☠️ 中毒・誤飲 → 中毒110番</h3>
-      <p>タバコ・薬・洗剤などの誤飲時は応急処置を指示してもらえます。</p>
-      <p>大阪 <a href="tel:0727272499">072-727-2499</a>（365日24h）<br>つくば <a href="tel:0298529999">029-852-9999</a>（365日 9〜21時）<br>たばこ専用 <a href="tel:0727269922">072-726-9922</a>（365日24h）</p></div>
-    <div class="card"><h3>🌡️ 発熱の目安</h3>
-      <ul class="clean"><li>生後3ヶ月未満の38℃以上 → <b>すぐ受診</b></li><li>水分が取れない・ぐったり・けいれん → <b>救急</b></li><li>元気で水分OKなら翌朝の受診で大丈夫なことも</li><li>解熱剤は医師の指示通りに（自己判断で使わない）</li></ul></div>
+      <p>タバコ・薬・洗剤などの誤飲時は応急処置を指示してもらえます。飲んだ物の容器を手元に。</p>
+      <p>大阪 <a class="sm" href="tel:0727272499">072-727-2499</a>（365日24h）<br>つくば <a class="sm" href="tel:0298529999">029-852-9999</a>（365日 9〜21時）<br>たばこ専用 <a class="sm" href="tel:0727269922">072-726-9922</a>（365日24h・自動音声）</p></div>
+
+    <div class="card"><h3>🚦 受診の目安：3段階</h3>
+      <div class="triage">
+        <div class="r"><b>🔴 すぐ119</b>呼吸が苦しそう（肋骨の間や鎖骨がへこむ・唇や顔が紫）／呼びかけに反応が薄い・意識がない／けいれんが5分以上・繰り返す／大量出血／広範囲や顔・気道のやけど／誤飲後にぐったり・意識がおかしい／全身のじんましん＋咳・嘔吐・ぐったり（アナフィラキシー）／溺水・窒息で反応がない</div>
+        <div class="y"><b>🟡 今夜のうちに受診・電話相談</b>生後3ヶ月未満の38℃以上／水分がとれない・おしっこが半日出ない／嘔吐を繰り返す・緑色の嘔吐・血便／泣き方がいつもと明らかに違う・ぐったり／頭を打った後に嘔吐・ぼんやり／ボタン電池・磁石・薬・タバコの誤飲</div>
+        <div class="g"><b>🟢 翌朝の受診でOKなことが多い</b>熱があるが機嫌よく水分がとれている／鼻水・咳があるが眠れている／軟便だが元気で飲めている／少量の吐き戻し</div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);">オンラインで症状から判定できる「こどもの救急」（日本小児科学会・生後1ヶ月〜6歳）：<a href="https://kodomo-qq.jp/" target="_blank" rel="noopener">kodomo-qq.jp</a></p>
+    </div>
+
+    <div class="card"><h3>🌡️ 発熱</h3>
+      <ul class="clean"><li><b>生後3ヶ月未満の38℃以上 → すぐ受診</b>（重い細菌感染の可能性）</li><li>3ヶ月以降は「熱の高さ」より<b>機嫌・水分・尿・呼吸・顔色</b>で判断</li><li>水分をこまめに（母乳・ミルク・経口補水液）。厚着させない、汗をかいたら着替え</li><li>解熱剤（アセトアミノフェン）は38.5℃以上でつらそうなときに、医師の指示量で。熱を下げるのは「楽にするため」で治療ではない</li><li>冷却シートは効果が限定的で、<b>乳児では口鼻を覆う窒息事故</b>の報告あり</li></ul>
+    </div>
+
+    <div class="card"><h3>⚡ 熱性けいれん</h3>
+      <p>6ヶ月〜5歳の子の7〜8%に起こり、多くは5分以内に自然に止まります。</p>
+      <ol class="steps"><li>平らな場所に<b>横向き</b>に寝かせる（吐物で窒息しないように）</li><li>口に物を入れない・押さえつけない・揺さぶらない</li><li><b>時間を測る</b>。可能ならスマホで動画（診断に非常に役立つ）</li><li>止まったら顔色・呼吸を確認し、意識が戻るのを待つ</li></ol>
+      <div class="ng">⛔ <b>119：</b>5分以上続く／短時間に繰り返す／体の片側だけ／止まった後も意識が戻らない・顔色が悪い／初めてのけいれん</div>
+    </div>
+
+    <div class="card"><h3>🤮 嘔吐・下痢・脱水</h3>
+      <ul class="clean"><li>吐いた直後は<b>30分待ってから</b>経口補水液を<b>5mlずつ5分おき</b>に。少量頻回が鉄則</li><li>飲めるようになったら、おかゆ・うどん・バナナなど早めに食事再開（絶食は不要）</li><li><b>脱水サイン</b>：おしっこが半日出ない／唇が乾く／泣いても涙が出ない／ぐったり／頭のてっぺん（大泉門）がへこむ</li><li>ノロ・ロタ：おむつは袋を二重に、汚れた場所は次亜塩素酸で消毒。パパの手洗いは石けんで30秒</li></ul>
+      <div class="ng">⛔ <b>受診：</b>脱水サインがある／緑色の嘔吐／血便・いちごジャム状の便／数分おきに激しく泣いてはおさまる（腸重積）／お腹が硬く張る</div>
+    </div>
+
+    <div class="card"><h3>😮‍💨 咳・呼吸が苦しそう</h3>
+      <ul class="clean"><li>縦抱きや上体を起こす、部屋を加湿、少量ずつ水分、鼻吸い</li><li>1歳未満のRSウイルス、クループ（犬が吠えるような咳）は急に悪化しやすい</li></ul>
+      <div class="ng">⛔ <b>119・救急：</b>息を吸うときに肋骨の間・鎖骨の上がへこむ（陥没呼吸）／小鼻がひくひく／うなるような呼吸／呼吸が速い（乳児で1分60回以上）／唇が紫／哺乳できない／ぜーぜーがひどく横になれない</div>
+    </div>
+
+    <div class="card"><h3>💊 誤飲・中毒</h3>
+      <ul class="clean"><li>何を・いつ・どれくらい飲んだか確認し、<b>容器を持って</b>中毒110番か受診</li><li><b>ボタン電池・磁石（複数）</b>：数時間で消化管に穴があくことがある。<b>症状がなくても即受診</b></li><li><b>タバコ</b>：2cm以上／吸い殻の浸出液を飲んだ→受診。水や牛乳を飲ませない（ニコチンが溶け出す）</li><li>洗剤・化粧品・シリカゲル・クレヨンなど：中毒110番で判断</li></ul>
+      <div class="ng">⛔ <b>吐かせてはいけない：</b>灯油・ベンジン・除光液（気管に入ると肺炎）／漂白剤・トイレ用洗剤・パイプ洗浄剤（強酸・強アルカリ）／針・ガラスなど鋭利な物／意識がない・けいれんしている</div>
+    </div>
+
+    <div class="card"><h3>🫁 窒息（のどに詰まった）</h3>
+      <p>咳ができて声が出るなら<b>咳を促す</b>。声が出ない・顔色が悪い・ぐったり → 誰かに119を頼み、すぐ以下を。</p>
+      <h4>1歳未満</h4>
+      <ol class="steps"><li><b>背部叩打法</b>：うつぶせで腕に乗せ、頭を低くして<b>背中の真ん中（肩甲骨の間）を手のひらの付け根で5回</b>強く叩く</li><li><b>胸部突き上げ法</b>：あおむけに返し、胸の真ん中を指2本で<b>5回</b>強く押す</li><li>出るまで①②を繰り返す。反応がなくなったら心肺蘇生へ</li></ol>
+      <h4>1歳以上</h4>
+      <ol class="steps"><li>背部叩打法5回</li><li><b>腹部突き上げ法</b>：後ろから抱え、へその少し上に握りこぶしを当てて手前上方へ5回</li><li>繰り返す。反応がなくなったら心肺蘇生へ</li></ol>
+      <div class="ng">⛔ 見えない物を指でかき出そうとしない（押し込む）。腹部突き上げ後は内臓損傷の確認のため必ず受診。</div>
+    </div>
+
+    <div class="card"><h3>❤️ 心肺蘇生（CPR）の流れ</h3>
+      <ol class="steps"><li>肩を叩いて（乳児は足の裏を叩いて）反応を確認。なければ<b>119とAED</b>を大声で頼む。1人なら119をスピーカーにして指示を受ける</li><li>呼吸を10秒以内で確認。普段どおりの呼吸がなければ<b>胸骨圧迫</b>開始</li><li>乳児：<b>胸の真ん中を指2本</b>で。小児：片手または両手の付け根で。深さは<b>胸の厚さの約1/3</b>、テンポ<b>1分間に100〜120回</b></li><li>できれば30回圧迫→人工呼吸2回（乳児は口と鼻を一緒に覆う）。できなければ圧迫だけ続ける</li><li>AEDが来たら電源を入れ音声に従う（小児用パッド・モードがあれば使用、なければ大人用でよい）</li></ol>
+      <div class="tip">💡 <b>プロの視点：</b>一度は<b>消防署の救命講習（3時間）</b>を夫婦で受講するのが最強の備え。名古屋市消防局は定期開催しています。</div>
+    </div>
+
+    <div class="card"><h3>🤕 頭を打った</h3>
+      <ul class="clean"><li>すぐ泣いて、その後機嫌よく遊べるなら<b>48時間は家で観察</b>。当日は激しい運動を避け、いつでも起こせる環境で寝かせる</li><li>たんこぶは冷やす。生後数ヶ月の赤ちゃんは頭蓋骨が薄いので受診の閾値を低く</li></ul>
+      <div class="ng">⛔ <b>受診・119：</b>意識がない・ぼんやり／嘔吐を2回以上／けいれん／手足の動きに左右差／機嫌が悪く泣き止まない／大泉門が盛り上がる／耳や鼻から血や透明な液／90cm以上（乳児は）からの転落／ぶつけた部分が大きく陥没</div>
+    </div>
+
+    <div class="card"><h3>🔥 やけど</h3>
+      <ol class="steps"><li>すぐに<b>流水で15〜20分</b>冷やす（服の上からでよい。氷は直接当てない）</li><li>水ぶくれは破らない。清潔なガーゼやラップで覆う</li><li>受診の目安：<b>子どもの手のひらより大きい</b>／顔・関節・陰部／水ぶくれ／白くなっている／低温やけど（湯たんぽ・カイロ）</li></ol>
+      <div class="ng">⛔ 予防：ポット・炊飯器の蒸気、テーブルクロス、コーヒーを持ったまま抱っこ、給湯温度の設定（40℃以下に）。</div>
+    </div>
+
+    <div class="card"><h3>☀️ 熱中症・その他</h3>
+      <details open><summary>熱中症</summary><ul class="clean"><li><b>車内に置いていかない</b>（窓を開けても数分で危険域）。エンジン停止時は必ず全員降りる</li><li>ベビーカーは地面の照り返しで大人より3〜5℃暑い。日よけ・冷却シート・こまめに顔色確認</li><li>顔が赤い・汗が出ない・ぐったり・嘔吐 → 涼しい所で首・わき・股を冷やし、飲めなければ受診</li></ul></details>
+      <details><summary>鼻血</summary><p>座って<b>少し前かがみ</b>、小鼻を10〜15分しっかりつまむ。上を向かせない・首をトントンしない。30分止まらなければ受診。</p></details>
+      <details><summary>溺水</summary><p>浴槽・洗濯機・ビニールプールから引き上げ、反応がなければ<b>すぐ心肺蘇生</b>と119。一度回復しても当日中に受診。予防は<b>残し湯を抜く・浴室に鍵・目を離さない</b>。</p></details>
+      <details><summary>異物（耳・鼻）</summary><p>鼻：反対の鼻を押さえて「ふんっ」。取れなければ耳鼻科。<b>ピンセットで奥に押し込まない</b>。ボタン電池なら即受診。</p></details>
+      <details><summary>切り傷・すり傷</summary><p>流水で洗い、圧迫止血、ワセリンと絆創膏で湿潤環境に。消毒液は不要。深い・止まらない・動物にかまれた・錆びた物 → 受診。</p></details>
+    </div>
+
+    <div class="card"><h3>🛡️ 年齢別・事故予防チェック</h3>
+      <p style="font-size:13px;color:var(--muted);">子どもの死亡原因の上位は長年「不慮の事故」。事故は「注意」ではなく<b>環境</b>で防ぐ。</p>
+      <details><summary>0〜5ヶ月（窒息・転落・やけど）</summary><ul class="clean"><li>あおむけ・硬い布団・顔まわりに物なし・スリーパー</li><li>ソファ・ベッド・おむつ替え台で手を離さない</li><li>抱っこ紐の月齢・バックル確認、前かがみ注意</li><li>ミルク・お風呂の温度、コーヒーを持って抱っこしない</li><li>上の子・ペットと2人にしない</li></ul></details>
+      <details><summary>6〜11ヶ月（誤飲・転落・溺水）</summary><ul class="clean"><li>直径4cm以下の物は床から1m以上へ（トイレットペーパーの芯でチェック）</li><li>ボタン電池・磁石・薬・タバコ・洗剤・化粧品は鍵付き or 高所</li><li>浴槽の水を抜く、洗面器・バケツも空に</li><li>階段・キッチンにゲート、コンセントカバー、家具の転倒防止</li><li>ベビーベッドの柵は常に上げる、ハイローチェアのベルト</li></ul></details>
+      <details><summary>1〜3歳（転落・窒息・交通事故・やけど）</summary><ul class="clean"><li>窓・ベランダに足場になる物を置かない（補助錠）</li><li>硬い豆・ナッツは5歳以下NG。ぶどう・ミニトマトは4等分</li><li>チャイルドシート着用、駐車場・道路では必ず手をつなぐ（急に走る）</li><li>炊飯器・ポット・ストーブガード、テーブルクロスをやめる</li><li>ビニール袋・ひも（ブラインドのコード）を手の届く所に置かない</li><li>ドラム式洗濯機は使わない時もチャイルドロック</li></ul></details>
+      <details><summary>3歳〜（交通事故・水の事故・遊具）</summary><ul class="clean"><li>自転車は同乗もヘルメット。飛び出し防止は「止まる・見る・待つ」を毎回声かけ</li><li>川・プール・海では<b>ライフジャケット</b>、目を離さない</li><li>遊具では上着のひも・ヘルメットのあごひもが首に引っかかる事故に注意</li><li>ボタン電池・磁石おもちゃ・水で膨らむビーズは引き続き要注意</li></ul></details>
+    </div>
+
     <div class="card"><h3>📋 パパも把握しておく情報</h3>
-      <ul class="clean"><li>かかりつけ小児科の住所・電話・休診日</li><li>母子手帳の場所・アレルギー情報</li><li>保育園・幼稚園の緊急連絡先</li><li>ママが倒れた時の預け先（実家・ファミサポ等）</li></ul></div>
+      <ul class="clean"><li>かかりつけ小児科の住所・電話・休診日・WEB予約の使い方</li><li><b>救急セット</b>を1つの袋に：母子手帳・保険証（マイナ保険証）・<b>子ども医療費受給者証</b>・お薬手帳・診察券・おむつ・ミルク・着替え・タオル</li><li>アレルギー・既往歴・服薬中の薬・体重（薬の量は体重で決まる）</li><li>保育園・幼稚園の緊急連絡先、ママが倒れた時の預け先（実家・ファミサポ・一時保育）</li><li>各区の<b>子育て総合相談窓口</b>（保健センター）の電話番号</li></ul>
+    </div>
+
+    <div class="card"><h3>🆘 パパ自身が限界のとき</h3>
+      <ul class="clean"><li><b>児童相談所 虐待対応ダイヤル 189（いちはやく）</b>：通報だけでなく「叩いてしまいそう」「もう無理」という<b>自分自身の相談</b>にも24時間対応</li><li>各区保健センター 子育て総合相談窓口（平日8:45〜17:15）</li><li>育児もしもしキャッチ <a href="tel:0562430555">0562-43-0555</a>（火〜木 17:00〜21:00）</li></ul>
+      <div class="tip">💡 赤ちゃんを安全な場所に置いて別室に行くのは「逃げ」ではなく<b>正しい応急処置</b>です。</div>
+    </div>
+
+    <p class="source">主な参考：厚生労働省「授乳・離乳の支援ガイド（2019年改定版）」、こども家庭庁「SIDS対策」、日本小児科学会「こどもの救急」、消費者庁「子どもを事故から守る」、日本小児科医会「子どもとメディア」、日本小児歯科学会ほか4学会「フッ化物配合歯磨剤の推奨量（2023）」、日本蘇生協議会ガイドライン、文部科学省「幼児期運動指針」、名古屋市・愛知県公式サイト（2026年時点）。本アプリの情報は一般的な目安であり、個別の医療判断はかかりつけ医・相談窓口へ。</p>
   </section>
 
-<footer>パパ育児ガイド v1.0<br>困ったら #8000。パパ、今日もおつかれさま 👏</footer>
+<footer>パパ育児ガイド v2.0<br>困ったら #8000。パパ、今日もおつかれさま 👏</footer>
 </main>
 </div>
 
 <nav class="tabs">
   <button class="on" data-p="p-home"><span class="e">🏠</span>ホーム</button>
-  <button data-p="p-age"><span class="e">🌱</span>年齢別</button>
-  <button data-p="p-mama"><span class="e">💬</span>ママ対応</button>
+  <button data-p="p-age"><span class="e">🌱</span>発達・年齢</button>
+  <button data-p="p-care"><span class="e">🍼</span>お世話</button>
+  <button data-p="p-mama"><span class="e">💬</span>ママ</button>
   <button data-p="p-check"><span class="e">✅</span>チェック</button>
   <button data-p="p-sos"><span class="e">🆘</span>救急</button>
 </nav>
 
 <script>
+/* ---------- tabs ---------- */
 const pages=document.querySelectorAll('.page');
 document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));
   window.scrollTo({top:0});
 });
+
+/* ---------- daily checklist ---------- */
 const ITEMS=[
  ["おむつ替え・着替えをした","回数が信頼残高になる"],
- ["お風呂〜保湿〜着替えまでやった","パパ担当化がおすすめ"],
- ["寝かしつけをした","パパでも必ず寝るようになる"],
- ["食事の準備・片付けをした","作る〜洗うまでがワンセット"],
+ ["お風呂〜保湿〜着替えまでやった","保湿までがお風呂"],
+ ["寝かしつけをした","同じ手順を3〜7日続ける"],
+ ["食事・ミルクの準備と片付けをした","作る〜洗うまでがワンセット"],
  ["洗濯を最後までやった","干す→畳む→しまうまで"],
  ["掃除・ゴミ出しをした","名もなき家事に気づく"],
- ["ママに感謝を言葉で伝えた","具体的に言うと効果3倍"],
- ["ママに一人の時間を作った","週1・2時間が目安"],
- ["子どもの話を目を見て聞いた","途中で遮らない"],
+ ["子どもの声・指さしに言葉で返した","応答的な関わりが脳を育てる"],
+ ["絵本を読んだ・歌った","1日1冊が目安"],
+ ["仕上げ磨きをした（歯が生えていれば）","寝る前1回は省かない"],
+ ["今日の飲み・排泄・睡眠・機嫌を把握した","受診時に聞かれる4項目"],
+ ["ママに感謝を具体的に伝えた","「何が」助かったかまで言う"],
+ ["ママが連続で眠れる時間を作った","夜間は交代制が理想"],
  ["ママの話を15分聞いた","解決策より共感ファースト"],
+ ["自分も休憩・深呼吸をした","パパのメンタルも育児資源"],
 ];
 const KEY='papa-check-v1';
 let state={}; try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
 const today=new Date().toDateString();
 if(state.date!==today) state={date:today};
-else state.date=today;
 const list=document.getElementById('checklist');
 ITEMS.forEach((it,i)=>{
   const l=document.createElement('label'); l.className='check'+(state[i]?' done':'');
@@ -208,6 +553,84 @@ function update(){
   document.getElementById('bar').style.width=p+'%';
 }
 update();
+
+/* ---------- weekly missions (reset every Monday) ---------- */
+const WEEKLY=[
+ ["ママに2時間のフリータイムを作った","家で寝てもらうだけでもOK"],
+ ["夫婦ミーティング15分をした","きつかったこと／来週の分担／感謝1つ"],
+ ["健診・予防接種・保育園の予定を確認した","共有カレンダーに入れる"],
+ ["家の危険箇所を1つ減らした","誤飲・転落・やけど・溺水の目で見回す"],
+ ["外遊び・散歩に連れて行った","幼児は毎日60分が目安"],
+ ["ママの体調・気持ちを直接聞いた","眠れてる？楽しめてる？"],
+ ["自分の睡眠・気分をチェックした","パパの産後うつも約1割"],
+];
+function weekKey(){const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+const WKEY='papa-week-v1', wk=weekKey();
+let wstate={}; try{wstate=JSON.parse(localStorage.getItem(WKEY)||'{}')}catch(e){wstate={}}
+if(wstate.week!==wk) wstate={week:wk};
+document.getElementById('wk-label').textContent=wk.replace(/-/g,'/')+' の週';
+const wl=document.getElementById('weekly');
+WEEKLY.forEach((it,i)=>{
+  const l=document.createElement('label'); l.className='check'+(wstate[i]?' done':'');
+  l.innerHTML='<input type="checkbox" '+(wstate[i]?'checked':'')+'><span>'+it[0]+'<small>'+it[1]+'</small></span>';
+  l.querySelector('input').onchange=e=>{wstate[i]=e.target.checked;
+    try{localStorage.setItem(WKEY,JSON.stringify(wstate))}catch(_){}
+    l.classList.toggle('done',e.target.checked);};
+  wl.appendChild(l);
+});
+
+/* ---------- age tracker ---------- */
+const EVENTS=[
+ [0,"出生届（14日以内）・児童手当・健康保険・医療費助成の申請","パパ担当"],
+ [1,"1ヶ月健診（産院）／ママの1ヶ月健診にも同行",""],
+ [2,"予防接種デビュー：ロタ・B型肝炎・肺炎球菌・5種混合","ロタ1回目は生後14週6日まで"],
+ [3,"3〜4ヶ月健診（保健センター）／首すわりの確認",""],
+ [5,"離乳食スタートのサインを確認（5〜6ヶ月）","BCG（標準は5〜8ヶ月）"],
+ [6,"寝返り・転落対策／歯が生えたら歯みがき開始","初めての食材は平日午前に"],
+ [7,"2回食へ／6〜7ヶ月健診",""],
+ [9,"3回食・手づかみ食べ／9〜10ヶ月健診／誤飲・溺水・やけど対策","つかまり立ちの時期"],
+ [12,"1歳の予防接種：MR・水痘・ヒブと肺炎球菌の追加（おたふくは任意）","離乳完了期へ・牛乳OK"],
+ [15,"ひとり歩き・言葉の確認（18ヶ月まで幅あり）",""],
+ [18,"1歳6ヶ月児健診（言葉・歩行・指さし）","イヤイヤ期の準備"],
+ [24,"二語文・トイトレのサインを観察／フッ素塗布の相談",""],
+ [36,"3歳児健診（家で視力・聴力チェック）／日本脳炎1期",""],
+ [48,"友達との遊び・ルール理解／自転車はヘルメット",""],
+ [60,"MR2期（年長の1年間）／就学前健診・学童の情報収集",""],
+];
+const DKEY='papa-dob-v1';
+const dobInput=document.getElementById('dob-input');
+function monthsBetween(a,b){let m=(b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth()); if(b.getDate()<a.getDate()) m--; return m;}
+function renderAge(){
+  const v=localStorage.getItem(DKEY);
+  const form=document.getElementById('dob-form'), view=document.getElementById('dob-view');
+  document.querySelectorAll('.card.age').forEach(c=>c.classList.remove('now'));
+  if(!v){form.style.display='';view.style.display='none';return;}
+  form.style.display='none'; view.style.display='';
+  const dob=new Date(v+'T00:00:00'), now=new Date(); now.setHours(0,0,0,0);
+  const main=document.getElementById('age-main'), sub=document.getElementById('age-sub'), stage=document.getElementById('age-stage'), ev=document.getElementById('events');
+  if(dob>now){
+    const days=Math.round((dob-now)/86400000);
+    main.textContent='出産まで '+days+'日'; sub.textContent='予定日 '+dob.toLocaleDateString('ja-JP');
+    stage.innerHTML='産後パパ育休の申出は原則<b>2週間前</b>まで。入院バッグ・チャイルドシート・沐浴用品・液体ミルクの備蓄・実家との役割分担を今のうちに。';
+    ev.innerHTML=EVENTS.slice(0,4).map(e=>'<div class="ev"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
+    return;
+  }
+  const m=monthsBetween(dob,now);
+  const anniv=new Date(dob); anniv.setMonth(anniv.getMonth()+m);
+  const d=Math.round((now-anniv)/86400000);
+  main.textContent=m>=12?Math.floor(m/12)+'歳'+(m%12)+'ヶ月':'生後'+m+'ヶ月'+d+'日';
+  sub.textContent='誕生日 '+dob.toLocaleDateString('ja-JP');
+  let cur=null;
+  document.querySelectorAll('.card.age').forEach(c=>{const lo=+c.dataset.min, hi=+c.dataset.max; if(m>=lo&&m<hi){c.classList.add('now'); cur=c;}});
+  stage.innerHTML=cur?'今の時期：<b>'+cur.querySelector('.age-tag').textContent+'</b>「'+cur.querySelector('h3').textContent+'」。「発達・年齢」タブで<b>今ここ</b>の印を確認。':'';
+  const upcoming=EVENTS.filter(e=>e[0]>=m).slice(0,4), recent=EVENTS.filter(e=>e[0]<m).slice(-1);
+  ev.innerHTML=recent.map(e=>'<div class="ev past"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+'</span></div>').join('')+
+    upcoming.map(e=>'<div class="ev"><span class="m">'+(e[0]>=12?Math.floor(e[0]/12)+'歳'+(e[0]%12?e[0]%12+'ヶ月':''):'生後'+e[0]+'ヶ月')+'</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
+  if(!upcoming.length) ev.innerHTML+='<div class="ev"><span class="m">これから</span><span>就学準備・約束を守る・話を聞く。ここまでよく頑張りました。</span></div>';
+}
+document.getElementById('dob-save').onclick=()=>{ if(!dobInput.value) return; try{localStorage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); };
+document.getElementById('dob-edit').onclick=()=>{ dobInput.value=localStorage.getItem(DKEY)||''; try{localStorage.removeItem(DKEY)}catch(_){}; renderAge(); };
+renderAge();
 </script>
 </body>
 </html>
