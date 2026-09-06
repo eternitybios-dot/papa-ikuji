@@ -350,7 +350,7 @@ table.t th{color:var(--muted); font-weight:normal; white-space:nowrap;}
 
     <div class="card"><h3>👶 産後パパ育休を「戦力」として使う</h3>
       <ul class="clean"><li><b>産後パパ育休（出生時育児休業）</b>：子の出生後8週間以内に<b>最大28日</b>、2回に分割可。申出は原則2週間前まで</li><li><b>通常の育休</b>：1歳まで（保育園に入れない等で最長2歳）、2回に分割可。パパ・ママそれぞれ取得可能</li><li><b>2025年4月〜</b>：夫婦とも14日以上育休を取ると、最初の28日間は給付率80%（非課税・社会保険料免除のため<b>手取りは実質10割相当</b>）</li></ul>
-      <div class="tip">💡 <b>育休中の心得：</b>「休暇」ではなく「家事9割・夜間対応・上の子担当」の主担当期間。ママが日中に連続睡眠を取れる設計を最優先に。取得前に会社と<b>引き継ぎ・復帰後の働き方</b>も相談しておく。</div>
+      <div class="tip">💡 <b>育休中の心得：</b>「休暇」ではなく「家事9割・夜間対応・上の子担当」の主担当期間。ママが日中に連続睡眠を取れる設計を最優先に。取得前に会社と<b>引き継ぎ・復帰後の働き方</b>も相談しておく。時期別の具体的な行動は「育休」タブに。</div>
     </div>
 
     <div class="card"><h3>🏡 里帰り・実家・義実家</h3>
@@ -364,6 +364,149 @@ table.t th{color:var(--muted); font-weight:normal; white-space:nowrap;}
     <div class="card"><h3>🏥 名古屋市のママ支援を使う</h3>
       <ul class="clean"><li><b>産後ケア事業「なごやMommy Care⁺」</b>：宿泊型・通所型・訪問型で助産師のケア・授乳指導・休息が受けられる。出産後1年以内、1回の出産につき7日分。電子申請→利用券→事業所へ予約</li><li><b>子育て総合相談窓口</b>（各区保健センター）：平日8:45〜17:15。母子手帳交付から産後うつ・発達相談まで何でも。相談無料・秘密厳守</li><li><b>育児もしもしキャッチ</b> <a href="tel:0562430555">0562-43-0555</a>：火〜木 17:00〜21:00（あいち小児保健医療総合センター）</li></ul>
       <div class="tip">💡 <b>プロの視点：</b>「使うのは申し訳ない」と思うママが多い。<b>パパが調べて申請まで</b>やると利用率が上がります。</div>
+    </div>
+  </section>
+
+  <!-- IKUKYU PLAN -->
+  <section class="page" id="p-leave">
+    <h2>あなたの育休プラン</h2>
+    <p class="lead">「10月中旬から産後パパ育休1ヶ月 → 復職 → 4月から育休6ヶ月」の計画に合わせた、時期別の行動と心づもりです。</p>
+
+    <div class="card">
+      <h3>📆 全体のタイムライン</h3>
+      <div id="leave-timeline"></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:8px;">ホームで誕生日（予定日）を登録すると、各期間の月齢が実際の日付で計算されます。現在の期間には色が付きます。</p>
+    </div>
+
+    <div class="motto">🧭 育休の定義：「休暇」ではなく<b>「家庭の主担当シフト」</b>。評価者は誰もいない。唯一のKPIは「ママが眠れた時間」と「子が安全に育っていること」。</div>
+
+    <!-- PHASE 0 -->
+    <div class="card phase" data-phase="0"><span class="now-badge">今ここ</span><span class="age-tag">① 出産前（今〜10月中旬）</span><h3>🧳 準備がそのまま産後の余裕になる</h3>
+      <h4>会社への手続き</h4>
+      <ul class="clean">
+        <li><b>産後パパ育休の申出</b>：法律上は原則<b>2週間前</b>まで。ただし労使協定で「1ヶ月前」になっている会社も多い。<b>9月中に人事へ提出</b>し、予定日ずれに備え「出生日から○日」で書けるか確認</li>
+        <li><b>4月からの育休</b>：正式申出は<b>1ヶ月前（2月末〜3月初）</b>だが、今のうちに上司へ口頭で共有。人員計画に組み込んでもらう</li>
+        <li><b>給付の要件確認</b>：ママが産後休業中なら、パパの出生後休業支援給付金（+13%）は配偶者の育休要件なしで受けられる。人事に「出生時育児休業給付金＋出生後休業支援給付金」の申請を依頼</li>
+        <li><b>社会保険料免除の設計</b>：免除は「<b>月末に育休中</b>」または「<b>同じ月に14日以上</b>」の月。10月中旬〜11月中旬なら10月分は免除、11月分は日数次第。開始・終了日を人事と相談</li>
+        <li>引き継ぎ書：「やめる／任せる／戻ってからやる」の3分類。緊急連絡は<b>1人・1手段</b>に絞る</li>
+      </ul>
+      <h4>役所・お金</h4>
+      <ul class="clean">
+        <li>出生届（14日以内）、児童手当（<b>出生翌日から15日以内</b>に申請すれば当月分から）、健康保険の扶養追加、名古屋市の<b>子ども医療費受給者証</b>、出産育児一時金の直接支払制度の確認。<b>必要書類を今のうちに一式揃える</b></li>
+        <li>給付金は<b>2ヶ月ごとの後払い</b>（初回入金は休業開始から2〜3ヶ月後）。給与ゼロの月に備えて<b>生活費2〜3ヶ月分</b>を確保</li>
+        <li>陣痛タクシーの登録、入院バッグ、チャイルドシートの取り付けと退院時の練習</li>
+      </ul>
+      <h4>家の準備</h4>
+      <ul class="clean">
+        <li>沐浴・おむつ替え・調乳を産院の父親教室や動画で<b>手が覚えるまで</b>練習</li>
+        <li>家事の全工程を今のうちに一人で回す（洗濯機の設定・買い出し先・ゴミの曜日・常備品の在庫場所）</li>
+        <li>冷凍作り置き・レトルト・宅配食を<b>2週間分</b>。食洗機・乾燥機・ロボット掃除機は「時間を買う投資」として検討</li>
+        <li>実家・義実家と<b>来訪ルール</b>（事前連絡・30分・体調不良時は来ない・手洗い）を先に決める。調整役はパパ</li>
+        <li>産後ケア「なごやMommy Care⁺」の電子申請、かかりつけ小児科の候補、各区の子育て総合相談窓口の番号を保存</li>
+        <li>「お世話」タブと「救急」タブを一度通読。#8000 と 052-933-1174 を連絡先登録</li>
+      </ul>
+      <div class="tip">💡 <b>心づもり：</b>産後1ヶ月は「非常時」。ママの回復・赤ちゃんの安全・自分の睡眠の3つ以外は全部後回しでいい、と今から決めておく。「立派な父親になる」ではなく「シフトを回す」つもりで。</div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="card phase" data-phase="1"><span class="now-badge">今ここ</span><span class="age-tag">② 産後パパ育休 1ヶ月（10月中旬〜11月中旬・生後0〜1ヶ月）</span><h3>🌙 家事10割・授乳以外の世話10割・ママの世話</h3>
+      <p>ママの仕事は<b>「寝る・授乳・食べる」だけ</b>にする。それ以外が全部パパの担当範囲。</p>
+      <h4>1日の型（例）</h4>
+      <table class="t">
+        <tr><th>21:00</th><td>ママは授乳後すぐ就寝（<b>連続睡眠の確保が最優先</b>）</td></tr>
+        <tr><th>22:00〜2:00</th><td><b>パパ担当</b>：搾乳またはミルクで1回、ゲップ・おむつ・寝かしつけ。ママは起こさない</td></tr>
+        <tr><th>2:00〜7:00</th><td>授乳はママ、その後のゲップ・おむつ・寝かしつけはパパ（可能なら）。パパもここで4〜5時間眠る</td></tr>
+        <tr><th>7:00〜9:00</th><td>朝食・洗濯・ゴミ・ママの水分と食事</td></tr>
+        <tr><th>10:00〜12:00</th><td>沐浴（暖かい時間帯）→保湿、買い出し、役所</td></tr>
+        <tr><th>13:00〜15:00</th><td><b>ママの昼寝2時間</b>。パパが赤ちゃんを別室で見る</td></tr>
+        <tr><th>15:00〜18:00</th><td>掃除・夕食づくり・来客対応</td></tr>
+        <tr><th>17:00〜20:00</th><td>「たそがれ泣き」の時間帯はパパが抱っこ担当</td></tr>
+      </table>
+      <h4>週ごとの重点</h4>
+      <details open><summary>第1週：手続きと観察</summary>
+        <ul class="clean"><li>出生届・児童手当・保険・医療費助成を<b>まとめて1日で</b>済ませる（区役所）</li><li>ママの観察：悪露の量・傷の痛み・発熱・気分。赤ちゃんの観察：黄疸・おへそ・おしっこ6回以上・便色カード</li><li>退院直後は「何もしないで寝てて」を毎日言う</li></ul></details>
+      <details><summary>第2週：リズムと来客コントロール</summary>
+        <ul class="clean"><li>ママの産後2週間健診に同行。EPDS（気分の質問票）の結果を共有してもらう</li><li>来客は事前連絡・30分・体調不良は断る、をパパが窓口で徹底</li><li>「こんにちは赤ちゃん訪問」の日程調整、質問リストを作る</li></ul></details>
+      <details><summary>第3週：家事の自走化</summary>
+        <ul class="clean"><li>ママが指示しなくても家が回る状態にする（買い出しリスト・在庫の定位置・献立パターン）</li><li>自分の疲れを点検：合計6時間眠れているか、笑えているか</li><li>ママの気分チェック（眠れてる？食べてる？泣くことが増えた？）を週1で。2週間以上続くサインがあれば「ママ」タブの産後うつの項へ</li></ul></details>
+      <details><summary>第4週：1ヶ月健診と復職準備</summary>
+        <ul class="clean"><li>1ヶ月健診（親子）に同行。医師への質問はパパがメモして聞く</li><li><b>復職後の分担表</b>をママと作る（次の期間③のひな型を使う）。復職1週間前から「復職版の夜間分担」を試す</li><li>冷凍作り置きの補充、宅配・産後ケア（訪問型）・ファミサポの登録</li><li>小児科を決めて<b>生後2ヶ月の予防接種を予約</b>（土曜にパパが連れて行く前提で）</li></ul></details>
+      <div class="tip">💡 <b>心づもり</b><ul class="clean" style="margin-top:6px;">
+        <li>泣き止ませられない・寝かせられないのは無能ではなく<b>標準仕様</b>。生後2週〜2ヶ月は理由なく泣く</li>
+        <li>ママの言葉がきつくても、それはホルモンと睡眠不足。反論せず「そうだね」で受ける。議論は2人とも眠れた日に</li>
+        <li>「手伝ってる」「協力してる」と言わない。自分の家の自分の子のシフトを回しているだけ</li>
+        <li>1ヶ月で「何もできなかった」と感じるのが普通。<b>ママが眠れた時間の合計</b>を成果として数える</li>
+        <li>パパ自身の産後うつも約1割。自分の睡眠を設計に入れるのは怠けではなく<b>安全管理</b></li>
+        <li>就業は最大10日／80時間まで可能（労使協定がある場合）だが、<b>やらないのが正解</b>。1ヶ月は短い</li></ul></div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="card phase" data-phase="2"><span class="now-badge">今ここ</span><span class="age-tag">③ 復職期間（11月中旬〜3月・生後1〜5ヶ月）</span><h3>🏢 日中のワンオペを「設計」で軽くする</h3>
+      <p>産後うつの発症ピーク（産後2週〜3ヶ月）と、ママの日中ワンオペが<b>ちょうど重なる</b>期間。ここが4ヶ月半のうちで最も注意が必要です。</p>
+      <h4>平日の型</h4>
+      <table class="t">
+        <tr><th>出勤前</th><td>赤ちゃんを1時間担当（ママはもう一眠り）、洗濯干し、ゴミ、朝食片付け、おむつ・ミルクの補充</td></tr>
+        <tr><th>昼</th><td>LINEを1本「どう？」（返事は求めない）。ママが大人と話す機会を作る</td></tr>
+        <tr><th>帰宅後</th><td><b>定時退社</b>。お風呂→保湿→寝かしつけはパパ。夕食の片付け・翌日の準備</td></tr>
+        <tr><th>夜間</th><td>「前半パパ・後半ママ」か「金土日の夜は全部パパ」の曜日制。<b>どちらかを必ず選ぶ</b></td></tr>
+        <tr><th>週末</th><td>ママの<b>2時間フリータイム＋昼寝</b>、作り置き、買い出し、予防接種・健診はパパが連れて行く</td></tr>
+      </table>
+      <h4>この期間の行動</h4>
+      <ul class="clean">
+        <li>残業しない・飲み会は月1以下で事前合意。「育休を取った人」として職場も見ている。<b>定時退社は堂々と</b></li>
+        <li>生後2ヶ月の予防接種デビュー（ロタは生後14週6日まで）、3〜4ヶ月健診を<b>パパの予定</b>に入れる</li>
+        <li>ママの心身チェックを週1（眠れてる？食べてる？外に出た？笑えてる？）。サインがあれば一緒に受診・保健センターへ</li>
+        <li>外部資源を使う：産後ケア（訪問型・通所型）、ファミサポ、家事代行、宅配。「使うのは申し訳ない」をパパが解除する</li>
+        <li>ママが復職予定なら：保育園（区役所民生子ども課）の申込状況、搾乳・冷凍母乳の練習、慣らし保育の日程、病児保育の登録を<b>今のうちに</b></li>
+        <li>4〜5ヶ月：離乳食グッズ、寝返り前の転落対策、首すわり後の抱っこ紐散歩をパパの週末担当に</li>
+        <li><b>2月末〜3月初：4月育休の正式申出</b>（1ヶ月前）。引き継ぎ開始。育休中の連絡ルールを決める</li>
+      </ul>
+      <div class="tip">💡 <b>心づもり</b><ul class="clean" style="margin-top:6px;">
+        <li>「仕事で疲れている」はママも同じかそれ以上。帰宅後は<b>セカンドシフト</b>の開始</li>
+        <li>この時期の評価・昇進が一時的に鈍ることは受け入れる。4月から6ヶ月抜けることも織り込み済みと考える</li>
+        <li>ママの孤立は目に見えない。「今日誰かと話した？」を聞く</li>
+        <li>自分だけ職場でリセットできることに気づく。ママには「リセットの時間」を物理的に作る</li></ul></div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="card phase" data-phase="3"><span class="now-badge">今ここ</span><span class="age-tag">④ 育休 6ヶ月（4月〜9月・生後5〜11ヶ月）</span><h3>🍼 離乳食・ハイハイ・夜泣き。発達が最も動く半年</h3>
+      <p>離乳食の開始から3回食、寝返り→ハイハイ→つかまり立ち、人見知り・後追い、夜泣きのピーク、歯の生え始め、誤飲・転落・溺水対策——「発達・年齢」タブの<b>6〜8ヶ月・9〜11ヶ月</b>の内容がこの期間そのものです。</p>
+      <h4>体制の2パターン</h4>
+      <div class="info">🅰 <b>ママが復職し、パパが日中の主担当</b><ul class="clean" style="margin-top:6px;"><li>生活リズム（起床7時・昼寝2回・就寝19〜20時）と離乳食の献立・冷凍ストックはパパの所管</li><li>週2回は外へ：各区の<b>地域子育て支援拠点・児童館・保健センターの育児教室</b>。パパは少数派でも歓迎される。孤立防止は子のためでもある</li><li>ママの搾乳を支援：冷凍母乳は解凍を流水・湯せんで（電子レンジ不可）、解凍後は24時間以内</li><li>保育園に入っている場合は慣らし保育の送迎と<b>呼び出し対応の第一連絡先をパパ</b>に</li></ul></div>
+      <div class="info">🅱 <b>2人とも在宅（ママも育休中）</b><ul class="clean" style="margin-top:6px;"><li>「なんとなく2人で」は必ず偏る。<b>タスク担当制</b>（離乳食・風呂・寝かしつけ・洗濯・買い出し）か<b>曜日担当制</b>で明文化</li><li>毎日どちらかに<b>2時間のフリータイム</b>を交代で。ママの復職・保活・キャリアの話をこの期間にじっくり</li><li>2人とも家にいる今こそ、ママの持病受診・歯科・美容院・友人との外出を前倒しで</li></ul></div>
+      <h4>月ごとの重点</h4>
+      <details open><summary>4月（5〜6ヶ月）：離乳食スタート・BCG・寝返り対策</summary>
+        <ul class="clean"><li>開始サイン（首すわり・支えて座れる・スプーンを押し出さない・興味）を確認し、<b>10倍がゆ1さじ</b>から。平日午前・新食材は1日1種</li><li>BCG（標準5〜8ヶ月）、寝返り前にソファ・ベッドからの転落対策</li><li>「午前中の離乳食はパパ」を固定し、記録（食材・量・便・肌）をつける</li></ul></details>
+      <details><summary>5月（6〜7ヶ月）：2回食・卵黄・歯みがき・誤飲対策</summary>
+        <ul class="clean"><li>2回食へ。固ゆで卵黄を耳かき1さじから（湿疹があれば小児科に先に相談）</li><li>6〜7ヶ月健診。歯が生えたらガーゼ→歯ブラシ。仕上げ磨きをパパの日課に</li><li>トイレットペーパーの芯を持って家中を点検。4cm以下は床から1m以上へ</li><li>人見知り・後追いが始まる＝愛着が育っている。応答的に関わる</li></ul></details>
+      <details><summary>6月（7〜8ヶ月）：ひとり座り・ずりばい・夜泣きピーク</summary>
+        <ul class="clean"><li>階段・キッチンにゲート、コンセントカバー、家具の固定</li><li>夜泣きピーク。<b>パパの夜泣き担当曜日</b>を決める（日中主担当なら昼寝で調整）</li><li>梅雨〜夏の熱中症準備（ベビーカーの日よけ・保冷・車内放置ゼロ）</li></ul></details>
+      <details><summary>7月（8〜9ヶ月）：3回食・手づかみ・ハイハイ</summary>
+        <ul class="clean"><li>3回食へ。手づかみ食べを存分に（レジャーシート・新聞紙で対策）</li><li>浴槽・洗濯機の残し湯を抜く習慣を徹底。10cmで溺れる</li><li>支援センター・プレイルームに定期的に通い、同月齢の親と知り合う</li></ul></details>
+      <details><summary>8月（9〜10ヶ月）：健診・つかまり立ち・指さし</summary>
+        <ul class="clean"><li>9〜10ヶ月健診。発達の心配はここで相談（個人差が大きい時期）</li><li>つかまり立ち→転倒。角ガード、テーブルクロス撤去、炊飯器・ポットの移動</li><li>指さしには「わんわんだね」と言葉を添えて一緒に見る</li></ul></details>
+      <details><summary>9月（10〜11ヶ月）：復職準備・1歳の準備</summary>
+        <ul class="clean"><li>保育園に入る場合は<b>慣らし保育</b>の日程確保。病児・病後児保育（名古屋市の病児・病後児デイケア事業）の登録</li><li>復職後の分担表 v2：送迎・呼び出し対応・病児の日の休み方を<b>夫婦で交互</b>に決める</li><li>1歳の予防接種（MR・水痘・ヒブと肺炎球菌の追加）を予約。夜間授乳を減らす担当はパパ</li><li>職場との復帰面談。「残業なし・送迎あり・呼び出しあり」を前提に働き方を合意</li><li>引き継ぎメモ：ミルク量・食べる物・寝かしつけの型・好きな遊びを、ママや保育園に渡せる形に</li></ul></details>
+      <div class="tip">💡 <b>心づもり</b><ul class="clean" style="margin-top:6px;">
+        <li>6ヶ月は長い。毎日同じに見えて、発達はこの半年が<b>人生で一番速い</b>。写真・一行日記をパパ自身の記録として</li>
+        <li>孤立に注意。男性は支援センターで少数派だが、行けば必ず居場所になる。保健センターにパパ講座がある区も</li>
+        <li>キャリアの不安（浦島太郎感）は正常。月1で職場と軽い連絡、業界ニュースを追う程度でOK。学び直しは<b>余力があれば</b></li>
+        <li>「育休中なにしてたの？」に答える義務はない。子が安全に育ち、ママが働けた（休めた）ことが成果</li>
+        <li>お金：産後パパ育休の28日が67%給付の<b>180日上限に通算</b>されるため、6ヶ月育休の終盤約1ヶ月は給付率が50%に下がる見込み。家計に織り込む</li>
+        <li>復職後こそ本番。育休で身についた「判断できる親」を、残業なし・送迎・病児対応で<b>維持する</b></li></ul></div>
+    </div>
+
+    <div class="card"><h3>💴 制度・お金の要点（2026年時点）</h3>
+      <table class="t">
+        <tr><th>産後パパ育休</th><td>出生後8週以内に最大28日、2回に分割可。申出は原則2週間前（労使協定で最長1ヶ月前）。労使協定があれば休業中の就業は最大10日／80時間まで</td></tr>
+        <tr><th>給付①</th><td>出生時育児休業給付金 67%＋出生後休業支援給付金 13%＝<b>80%</b>（非課税・社保免除で手取り実質10割）。ママが産後休業中なら配偶者側の育休要件は不要</td></tr>
+        <tr><th>ママへの効果</th><td>パパが14日以上取ることで、<b>ママの育休も最初の28日が80%</b>になる（ママが雇用保険被保険者の場合）</td></tr>
+        <tr><th>4月からの育休</th><td>子が1歳になる前日まで（保育園に入れない等で最長2歳）、2回に分割可。申出は1ヶ月前。給付は通算180日まで67%、181日目以降50%</td></tr>
+        <tr><th>社会保険料</th><td>月末に育休中の月、または同月内14日以上の月は免除。賞与は1ヶ月超の育休で免除</td></tr>
+        <tr><th>入金タイミング</th><td>2ヶ月ごとに会社経由で申請。初回は休業開始から2〜3ヶ月後が目安</td></tr>
+        <tr><th>不利益取扱い</th><td>育休の申出・取得を理由とする解雇・降格・不利益な配置転換は法律で禁止</td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--muted);">出典：厚生労働省「育児休業等給付の内容と支給申請手続」（2025年4月改正対応版）。会社の就業規則・労使協定で申出期限などが異なるため、必ず人事に確認してください。</p>
     </div>
   </section>
 
@@ -504,6 +647,7 @@ table.t th{color:var(--muted); font-weight:normal; white-space:nowrap;}
   <button data-p="p-age"><span class="e">🌱</span>発達・年齢</button>
   <button data-p="p-care"><span class="e">🍼</span>お世話</button>
   <button data-p="p-mama"><span class="e">💬</span>ママ</button>
+  <button data-p="p-leave"><span class="e">📆</span>育休</button>
   <button data-p="p-check"><span class="e">✅</span>チェック</button>
   <button data-p="p-sos"><span class="e">🆘</span>救急</button>
 </nav>
@@ -628,9 +772,34 @@ function renderAge(){
     upcoming.map(e=>'<div class="ev"><span class="m">'+(e[0]>=12?Math.floor(e[0]/12)+'歳'+(e[0]%12?e[0]%12+'ヶ月':''):'生後'+e[0]+'ヶ月')+'</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
   if(!upcoming.length) ev.innerHTML+='<div class="ev"><span class="m">これから</span><span>就学準備・約束を守る・話を聞く。ここまでよく頑張りました。</span></div>';
 }
-document.getElementById('dob-save').onclick=()=>{ if(!dobInput.value) return; try{localStorage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); };
-document.getElementById('dob-edit').onclick=()=>{ dobInput.value=localStorage.getItem(DKEY)||''; try{localStorage.removeItem(DKEY)}catch(_){}; renderAge(); };
-renderAge();
+
+/* ---------- leave plan timeline ---------- */
+function renderLeave(){
+  const v=localStorage.getItem(DKEY);
+  const birth=v?new Date(v+'T00:00:00'):new Date('2026-10-15T00:00:00');
+  const addDays=(d,n)=>{const x=new Date(d); x.setDate(x.getDate()+n); return x;};
+  const fmt=d=>(d.getMonth()+1)+'/'+d.getDate();
+  const ageAt=d=>{const m=monthsBetween(birth,d); if(m<0) return '出産前'; if(m<1) return '生後'+Math.round((d-birth)/86400000)+'日'; return '生後'+m+'ヶ月';};
+  const now=new Date(); now.setHours(0,0,0,0);
+  const p1e=addDays(birth,29), l2s=new Date('2027-04-01T00:00:00'), l2e=new Date('2027-09-30T00:00:00');
+  const phases=[
+    {id:0,name:'① 出産前・準備',from:null,to:addDays(birth,-1),age:'〜出産'},
+    {id:1,name:'② 産後パパ育休 1ヶ月',from:birth,to:p1e,age:ageAt(birth)+'〜'+ageAt(p1e)},
+    {id:2,name:'③ 復職期間',from:addDays(p1e,1),to:addDays(l2s,-1),age:ageAt(addDays(p1e,1))+'〜'+ageAt(addDays(l2s,-1))},
+    {id:3,name:'④ 育休 6ヶ月',from:l2s,to:l2e,age:ageAt(l2s)+'〜'+ageAt(l2e)},
+    {id:4,name:'⑤ 復職（ここからが本番）',from:addDays(l2e,1),to:null,age:ageAt(addDays(l2e,1))+'〜'},
+  ];
+  let cur=-1;
+  phases.forEach(p=>{ if((p.from===null||now>=p.from)&&(p.to===null||now<=p.to)) cur=p.id; });
+  document.getElementById('leave-timeline').innerHTML=phases.map(p=>
+    '<div class="ev'+(p.id===cur?'':(p.to&&now>p.to?' past':''))+'"><span class="m">'+(p.from?fmt(p.from):'今')+'〜'+(p.to?fmt(p.to):'')+'</span><span>'+
+    (p.id===cur?'<b>'+p.name+'</b>':p.name)+'<br><small style="color:var(--muted)">'+p.age+'</small></span></div>').join('')+
+    (v?'':'<div style="font-size:12px;color:var(--muted);margin-top:6px;">※ 予定日を10/15と仮定して計算しています。ホームで予定日を登録すると更新されます。</div>');
+  document.querySelectorAll('.card.phase').forEach(c=>c.classList.toggle('now',+c.dataset.phase===cur));
+}
+document.getElementById('dob-save').onclick=()=>{ if(!dobInput.value) return; try{localStorage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); renderLeave(); };
+document.getElementById('dob-edit').onclick=()=>{ dobInput.value=localStorage.getItem(DKEY)||''; try{localStorage.removeItem(DKEY)}catch(_){}; renderAge(); renderLeave(); };
+renderAge(); renderLeave();
 </script>
 </body>
 </html>
