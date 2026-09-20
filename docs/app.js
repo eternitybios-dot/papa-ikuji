@@ -19,6 +19,23 @@ document.querySelectorAll('nav.tabs button').forEach(b=>{
 });
 document.getElementById('priority-age-link').onclick=()=>document.querySelector('nav.tabs button[data-p="p-age"]').click();
 
+/* ---------- simple / full mode ---------- */
+const MODE_KEY='papa-mode-v1';
+const modeSimple=document.getElementById('mode-simple');
+const modeFull=document.getElementById('mode-full');
+function setMode(mode,remember=true){
+  const simple=mode==='simple';
+  document.body.classList.toggle('simple',simple);
+  modeSimple.classList.toggle('on',simple);
+  modeFull.classList.toggle('on',!simple);
+  modeSimple.setAttribute('aria-pressed',String(simple));
+  modeFull.setAttribute('aria-pressed',String(!simple));
+  if(remember) storage.setItem(MODE_KEY,simple?'simple':'full');
+}
+modeSimple.onclick=()=>setMode('simple');
+modeFull.onclick=()=>setMode('full');
+setMode(storage.getItem(MODE_KEY)==='simple'?'simple':'full',false);
+
 /* ---------- daily checklist ---------- */
 const ITEMS=[
  ["おむつ替え・着替えをした","回数が信頼残高になる"],
@@ -200,13 +217,49 @@ function renderAge(){
     upcoming.map(e=>'<div class="ev"><span class="m">'+(e[0]>=12?Math.floor(e[0]/12)+'歳'+(e[0]%12?e[0]%12+'ヶ月':''):'生後'+e[0]+'ヶ月')+'</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
   if(!upcoming.length) ev.innerHTML+='<div class="ev"><span class="m">これから</span><span>就学準備・約束を守る・話を聞く。ここまでよく頑張りました。</span></div>';
 }
-document.getElementById('dob-save').onclick=()=>{ if(!dobInput.reportValidity()||!parseDate(dobInput.value)) return; try{storage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); };
+/* ---------- leave plan timeline ---------- */
+function renderLeave(){
+  const timeline=document.getElementById('leave-timeline');
+  if(!timeline)return;
+  const raw=storage.getItem(DKEY);
+  const parsed=parseDate(raw);
+  const birth=parsed||new Date('2026-10-15T00:00:00');
+  const addDays=(date,days)=>{const value=new Date(date);value.setDate(value.getDate()+days);return value;};
+  const fmt=date=>(date.getMonth()+1)+'/'+date.getDate();
+  const ageAt=date=>{
+    if(date<birth)return '出産前';
+    const months=monthsBetween(birth,date);
+    if(months<1)return '生後'+Math.round((date-birth)/86400000)+'日';
+    return '生後'+months+'ヶ月';
+  };
+  const now=new Date(); now.setHours(0,0,0,0);
+  const firstEnd=addDays(birth,29);
+  const secondStart=new Date('2027-04-01T00:00:00');
+  const secondEnd=new Date('2027-09-30T00:00:00');
+  const phases=[
+    {id:0,name:'① 出産前・準備',from:null,to:addDays(birth,-1),age:'〜出産'},
+    {id:1,name:'② 産後パパ育休 1ヶ月',from:birth,to:firstEnd,age:ageAt(birth)+'〜'+ageAt(firstEnd)},
+    {id:2,name:'③ 復職期間',from:addDays(firstEnd,1),to:addDays(secondStart,-1),age:ageAt(addDays(firstEnd,1))+'〜'+ageAt(addDays(secondStart,-1))},
+    {id:3,name:'④ 育休 6ヶ月',from:secondStart,to:secondEnd,age:ageAt(secondStart)+'〜'+ageAt(secondEnd)},
+    {id:4,name:'⑤ 復職（ここからが本番）',from:addDays(secondEnd,1),to:null,age:ageAt(addDays(secondEnd,1))+'〜'}
+  ];
+  const current=phases.findIndex(phase=>(phase.from===null||now>=phase.from)&&(phase.to===null||now<=phase.to));
+  timeline.innerHTML=phases.map(phase=>
+    '<div class="ev'+(phase.id===current?'':(phase.to&&now>phase.to?' past':''))+'"><span class="m">'+(phase.from?fmt(phase.from):'今')+'〜'+(phase.to?fmt(phase.to):'')+'</span><span>'+
+    (phase.id===current?'<b>'+phase.name+'</b>':phase.name)+'<br><small style="color:var(--muted)">'+phase.age+'</small></span></div>'
+  ).join('')+(parsed?'':'<div class="source">※ 誕生日未登録のため、予定日を2026年10月15日として仮計算しています。</div>');
+  document.querySelectorAll('.card.phase').forEach(card=>card.classList.toggle('now',+card.dataset.phase===current));
+}
+
+document.getElementById('dob-save').onclick=()=>{ if(!dobInput.reportValidity()||!parseDate(dobInput.value)) return; try{storage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); renderLeave(); };
 document.getElementById('dob-edit').onclick=()=>{
   dobInput.value=storage.getItem(DKEY)||'';
   document.getElementById('dob-form').style.display='';
   dobInput.focus();
+  renderLeave();
 };
 renderAge();
+renderLeave();
 
 /* Check on resume AND before a checkbox change; preserve existing storage keys. */
 function refreshCalendar(){
@@ -214,7 +267,7 @@ function refreshCalendar(){
   if(next!==today){
     today=next; state={date:today}; storage.setItem(KEY,JSON.stringify(state));
     list.querySelectorAll('input').forEach(input=>{input.checked=false;input.closest('label').classList.remove('done');});
-    update(); renderAge();
+    update(); renderAge(); renderLeave();
   }
   if(nextWeek!==wk){
     wk=nextWeek; wstate={week:wk}; storage.setItem(WKEY,JSON.stringify(wstate));

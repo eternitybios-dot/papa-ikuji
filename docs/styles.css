@@ -131,3 +131,21 @@ nav.tabs button{min-height:48px;font-size:11px;}
 a{color:#285b80;text-underline-offset:3px;}
 [hidden]{display:none!important;}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+
+/* 読みやすさ切替（育休タブの要約／詳細） */
+.mode{display:flex; gap:3px; background:rgba(255,255,255,.14); border-radius:99px; padding:3px; margin-top:14px; width:max-content;}
+.mode button{border:0; background:none; color:#fff; font-size:13px; padding:6px 14px; border-radius:99px; cursor:pointer; opacity:.8;}
+.mode button.on{background:#fff; color:#2e3a2f; font-weight:bold; opacity:1;}
+body.simple .full{display:none;}
+body:not(.simple) .simple{display:none;}
+.key{margin:8px 0 0; padding:0; list-style:none;}
+.key li{display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); font-size:15px; line-height:1.6;}
+.key li:last-child{border-bottom:0;}
+.key li .i{flex-shrink:0; width:26px; text-align:center; font-size:18px;}
+.key li b{color:#4a6b4f;}
+.key li .ng-t{color:var(--danger); font-weight:bold;}
+.simple .card h3{font-size:17px;}
+@media (max-width:390px){
+  nav.tabs button{font-size:9px;}
+  nav.tabs button .e{font-size:18px;}
+}
