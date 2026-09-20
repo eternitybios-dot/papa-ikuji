@@ -17,6 +17,7 @@ document.querySelectorAll('nav.tabs button').forEach(b=>{
   window.scrollTo({top:0});
 };
 });
+document.getElementById('priority-age-link').onclick=()=>document.querySelector('nav.tabs button[data-p="p-age"]').click();
 
 /* ---------- daily checklist ---------- */
 const ITEMS=[
@@ -99,19 +100,88 @@ const EVENTS=[
  [48,"友達との遊び・ルール理解／自転車はヘルメット",""],
  [60,"MR2期（年長の1年間）／就学前健診・学童の情報収集",""],
 ];
+const STAGES=[
+  {label:'新生児 0〜2ヶ月',points:['夜間対応を分担して、ママの連続睡眠をつくる','あおむけ・硬い寝床・顔まわりに物なしで寝かせる','泣いて限界のときは安全な場所に置き、交代して深呼吸する']},
+  {label:'3〜5ヶ月',points:['寝返りに備え、手を離すときは床に置く','お風呂や寝る前の手順を毎日同じにする','声かけ・歌・うつぶせ遊びは必ず見守って楽しむ']},
+  {label:'6〜8ヶ月',points:['初めての食材は平日午前に少量から試す','ボタン電池・磁石・薬などを床から遠ざける','夜泣き対応と寝る前の仕上げ磨きを分担する']},
+  {label:'9〜11ヶ月',points:['階段・キッチン・窓まわりの安全対策を先回りする','食事は座って、手づかみ食べを見守る','指さしや声に言葉を添えて一緒に見る']},
+  {label:'1歳〜1歳半',points:['食事は座ってゆっくり。窒息しやすい食材を避ける','予防接種と1歳6ヶ月健診を予定に入れる','外遊びと実況中継で、歩く力と言葉を育てる']},
+  {label:'1歳半〜3歳',points:['イヤイヤには予告・共感・2択で対応する','毎日体を動かし、絵本を一緒に読む','仕上げ磨きとトイレ練習は失敗を責めずに続ける']},
+  {label:'3歳〜就学前',points:['話を目線を合わせて最後まで聞く','道路・水・遊具の安全ルールを一緒に練習する','健診・予防接種・就学準備を家族で確認する']},
+];
 const DKEY='papa-dob-v1';
+const SKEY='papa-stage-v1';
 const dobInput=document.getElementById('dob-input');
+const ageCards=[...document.querySelectorAll('.card.age')];
+const agePicker=document.getElementById('age-picker-options');
+const priorityList=document.getElementById('priority-list');
+const priorityStage=document.getElementById('priority-stage');
+const priorityNote=document.getElementById('priority-note');
+const pickerButtons=STAGES.map((stage,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='age-picker-button'; b.dataset.stage=String(i);
+  b.setAttribute('aria-pressed','false'); b.textContent=stage.label;
+  agePicker.appendChild(b);
+  return b;
+});
+ageCards.forEach((card,i)=>{
+  card.dataset.stageIndex=String(i);
+  const button=document.createElement('button');
+  button.type='button'; button.className='age-open'; button.textContent='この時期を読む';
+  button.setAttribute('aria-controls',`age-card-${i}`);
+  button.setAttribute('aria-expanded','false');
+  card.id=`age-card-${i}`;
+  card.querySelector('h3').after(button);
+  button.onclick=()=>selectStage(i,true);
+});
+function renderPriorities(index){
+  const stage=STAGES[index]||STAGES[0];
+  priorityStage.textContent=stage.label;
+  const hasDob=parseDate(storage.getItem(DKEY));
+  priorityNote.textContent=hasDob?'誕生日から月齢に合わせて選んでいます。':'誕生日未登録。発達・年齢で選んだ時期を表示しています。';
+  priorityList.innerHTML=stage.points.map(point=>`<li>${point}</li>`).join('');
+}
+function selectStage(index,remember){
+  index=Math.max(0,Math.min(STAGES.length-1,Number(index)||0));
+  ageCards.forEach((card,i)=>{
+    const selected=i===index;
+    card.classList.toggle('age-primary',selected);
+    card.classList.toggle('age-collapsed',!selected);
+    const button=card.querySelector('.age-open');
+    button.textContent=selected?'選択中':'この時期を読む';
+    button.disabled=selected;
+    button.setAttribute('aria-expanded',String(selected));
+  });
+  pickerButtons.forEach((button,i)=>{
+    const selected=i===index;
+    button.classList.toggle('selected',selected);
+    button.setAttribute('aria-pressed',String(selected));
+  });
+  if(remember && !parseDate(storage.getItem(DKEY))){
+    try{storage.setItem(SKEY,String(index))}catch(_){}
+  }
+  renderPriorities(index);
+}
+pickerButtons.forEach((button,i)=>button.onclick=()=>selectStage(i,true));
+const storedStage=Number(storage.getItem(SKEY));
+selectStage(Number.isInteger(storedStage)&&storedStage>=0&&storedStage<STAGES.length?storedStage:0,false);
 function renderAge(){
   const v=storage.getItem(DKEY);
   const form=document.getElementById('dob-form'), view=document.getElementById('dob-view');
   document.querySelectorAll('.card.age').forEach(c=>c.classList.remove('now'));
-  if(!parseDate(v)){form.style.display='';view.style.display='none';return;}
+  if(!parseDate(v)){
+    form.style.display='';view.style.display='none';
+    const saved=Number(storage.getItem(SKEY));
+    selectStage(Number.isInteger(saved)&&saved>=0&&saved<STAGES.length?saved:0,false);
+    return;
+  }
   form.style.display='none'; view.style.display='';
   const dob=parseDate(v), now=new Date(); now.setHours(0,0,0,0);
   const main=document.getElementById('age-main'), sub=document.getElementById('age-sub'), stage=document.getElementById('age-stage'), ev=document.getElementById('events');
   if(dob>now){
     const days=Math.round((dob-now)/86400000);
     main.textContent='出産まで '+days+'日'; sub.textContent='予定日 '+dob.toLocaleDateString('ja-JP');
+    selectStage(0,false);
     stage.innerHTML='産後パパ育休の申出は原則<b>2週間前</b>まで。入院バッグ・チャイルドシート・沐浴用品・液体ミルクの備蓄・実家との役割分担を今のうちに。';
     ev.innerHTML=EVENTS.slice(0,4).map(e=>'<div class="ev"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
     return;
@@ -121,8 +191,9 @@ function renderAge(){
   const d=Math.round((now-anniv)/86400000);
   main.textContent=m>=12?Math.floor(m/12)+'歳'+(m%12)+'ヶ月':'生後'+m+'ヶ月'+d+'日';
   sub.textContent='誕生日 '+dob.toLocaleDateString('ja-JP');
-  let cur=null;
-  document.querySelectorAll('.card.age').forEach(c=>{const lo=+c.dataset.min, hi=+c.dataset.max; if(m>=lo&&m<hi){c.classList.add('now'); cur=c;}});
+  let cur=null, stageIndex=0;
+  document.querySelectorAll('.card.age').forEach((c,i)=>{const lo=+c.dataset.min, hi=+c.dataset.max; if(m>=lo&&m<hi){c.classList.add('now'); cur=c; stageIndex=i;}});
+  selectStage(stageIndex,false);
   stage.innerHTML=cur?'今の時期：<b>'+cur.querySelector('.age-tag').textContent+'</b>「'+cur.querySelector('h3').textContent+'」。「発達・年齢」タブで<b>今ここ</b>の印を確認。':'';
   const upcoming=EVENTS.filter(e=>e[0]>=m).slice(0,4), recent=EVENTS.filter(e=>e[0]<m).slice(-1);
   ev.innerHTML=recent.map(e=>'<div class="ev past"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+'</span></div>').join('')+
@@ -154,4 +225,3 @@ function refreshCalendar(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshCalendar();});
 window.addEventListener('focus',refreshCalendar);
 setInterval(refreshCalendar,30000);
-

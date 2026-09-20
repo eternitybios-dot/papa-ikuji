@@ -101,9 +101,33 @@ table.t th{color:var(--muted); font-weight:normal; white-space:nowrap;}
 .wk-head small{color:var(--muted); font-size:12px;}
 .source{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.6;}
 
+.priority{background:linear-gradient(145deg,#fffdf7,#f5f0e5); border:1px solid #eadfc8; border-radius:18px; padding:16px; margin:14px 0 4px; box-shadow:0 3px 12px rgba(102,79,35,.08);}
+.priority-head{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.priority-kicker{font-size:12px; color:var(--accent-d); font-weight:bold; letter-spacing:.04em;}
+.priority h2{margin:5px 0 4px;}
+.priority-note{font-size:13px; color:var(--muted); margin:0 0 8px;}
+.priority-list{margin:8px 0 10px; padding:0; list-style:none; counter-reset:priority;}
+.priority-list li{counter-increment:priority; display:flex; gap:9px; align-items:flex-start; margin:8px 0; font-weight:bold; line-height:1.55;}
+.priority-list li::before{content:counter(priority); background:var(--accent); color:#fff; border-radius:50%; width:22px; height:22px; flex:0 0 22px; text-align:center; line-height:22px; font-size:12px;}
+.text-button{border:0; background:none; color:#285b80; padding:4px 0; font-size:13px; font-weight:bold; cursor:pointer; text-decoration:underline; text-underline-offset:3px;}
+.age-picker{padding:14px;}
+.age-picker h3{margin:0 0 4px;}
+.age-picker p{font-size:13px; color:var(--muted); margin:0 0 10px;}
+.age-picker-options{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px;}
+.age-picker-button{border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:10px; padding:8px 7px; font-size:12px; line-height:1.35; cursor:pointer; min-height:42px;}
+.age-picker-button.selected{border-color:var(--sage); background:var(--sage-bg); color:#34522f; font-weight:bold; box-shadow:0 0 0 2px rgba(125,155,118,.18);}
+.card.age.age-primary{outline:3px solid var(--sage); outline-offset:-3px;}
+.card.age.age-collapsed{padding:12px 14px;}
+.card.age.age-collapsed > :not(.now-badge):not(.age-tag):not(h3):not(.age-open){display:none;}
+.card.age.age-collapsed h3{margin:0;}
+.age-open{display:block; border:0; background:none; color:#285b80; padding:2px 0 0; font-size:12px; cursor:pointer; text-decoration:underline; text-underline-offset:3px;}
+.age-open:disabled{color:var(--sage); cursor:default; text-decoration:none; font-weight:bold;}
+.home-details{border-top:1px solid var(--line); margin-top:8px;}
+.home-details > summary{padding:12px 0; color:#4a6b4f;}
+.home-details > h2{margin-top:10px;}
+
 :focus-visible{outline:3px solid #2f5f86;outline-offset:3px;}
 nav.tabs button{min-height:48px;font-size:11px;}
 a{color:#285b80;text-underline-offset:3px;}
 [hidden]{display:none!important;}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
-

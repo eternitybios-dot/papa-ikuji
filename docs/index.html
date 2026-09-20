@@ -26,6 +26,14 @@
       <div class="bar"><i id="bar"></i></div>
     </div>
 
+    <section class="priority" aria-labelledby="priority-title">
+      <div class="priority-head"><span class="priority-kicker">まずはここだけ</span><span id="priority-stage" class="age-tag">時期を選ぶと更新</span></div>
+      <h2 id="priority-title">今の時期に大切な3つ</h2>
+      <p id="priority-note">誕生日を登録すると月齢に合わせて表示します。未登録でも「発達・年齢」から時期を選べます。</p>
+      <ol id="priority-list" class="priority-list"></ol>
+      <button id="priority-age-link" class="text-button" data-p="p-age" type="button">時期を選び直す →</button>
+    </section>
+
     <h2>今のわが子</h2>
     <div class="card" id="dob-card">
       <div id="dob-form">
@@ -41,8 +49,10 @@
       </div>
     </div>
 
-    <h2>パパの心得5か条</h2>
-    <div class="card"><h3>① 「手伝う」ではなく「担う」</h3>
+    <details class="home-details">
+      <summary>パパの心得5か条と、できるパパの共通点を読む</summary>
+      <h2>パパの心得5か条</h2>
+      <div class="card"><h3>① 「手伝う」ではなく「担う」</h3>
       <p>「手伝おうか？」はNG。「おむつ替えるね」「今夜の寝かしつけは俺がやる」と<b>自分が主体</b>で宣言する。ママは監督ではなくパートナーを求めています。</p>
       <div class="tip">💡 <b>プロの視点：</b>担当を持つと「判断」までできるようになる（ミルクの量、服の枚数、受診の要否…）。判断できる人が2人いる家庭は圧倒的に強い。</div></div>
     <div class="card"><h3>② ママの睡眠を最優先で守る</h3>
@@ -65,13 +75,20 @@
         <li><b>ワンオペを作らない</b>：自分が外出する日はママにも「休みの日」を確保する</li>
         <li><b>危ないものを先回りで撤去</b>（事故予防は「注意」より「環境」）</li>
       </ul>
-    </div>
+      </div>
+    </details>
   </section>
 
   <!-- AGE -->
   <section class="page" id="p-age">
     <h2>発達と年齢別・パパのやること</h2>
     <p class="lead">発達の目安は「平均」であり、前後数か月の個人差は正常です。心配なときは健診や保健センターで相談を。</p>
+
+    <div class="card age-picker" aria-labelledby="age-picker-title">
+      <h3 id="age-picker-title">読む時期を選ぶ</h3>
+      <p id="age-picker-note">誕生日を登録すると自動で選ばれます。登録しない場合は、気になる時期をタップしてください。</p>
+      <div id="age-picker-options" class="age-picker-options" role="group" aria-label="子どもの時期"></div>
+    </div>
 
     <div class="card age" data-min="0" data-max="3"><span class="now-badge">今ここ</span><span class="age-tag">新生児 0〜2ヶ月</span><h3>🌙 ママの回復と、赤ちゃんの安全が最優先</h3>
       <h4>発達の目安</h4>
