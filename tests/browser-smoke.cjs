@@ -35,12 +35,43 @@ const assert=require('node:assert/strict');
     await page.locator('#checklist input').first().check();await page.reload();
     await page.locator('[data-p="p-check"]').click();
     assert.equal(await page.locator('#checklist input').first().isChecked(),true);
-    for(const id of ['p-home','p-age','p-care','p-mama','p-check','p-sos']){
+    for(const id of ['p-home','p-age','p-care','p-mama','p-leave','p-check','p-sos']){
       await page.locator('[data-p="'+id+'"]').click();
       assert.equal(await page.locator('#'+id).isVisible(),true);
       assert.equal(await page.locator('[data-p="'+id+'"]').getAttribute('aria-current'),'page');
     }
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    await page.locator('[data-p="p-age"]').click();
+    const priorities=await page.locator('#priority-list').textContent();
+    await page.locator('.age-picker-button').last().click();
+    assert.equal(await page.locator('#priority-list').textContent(),priorities);
+    assert.equal(await page.locator('.age-primary').getAttribute('data-min'),'36');
+    await page.locator('[data-p="p-leave"]').click();
+    await page.locator('.leave-settings summary').click();
+    await page.locator('#leave-start').fill('2027-04-01');
+    await page.locator('#leave-end').fill('2027-09-30');
+    await page.locator('#leave-save').click();
+    assert.match(await page.locator('#leave-timeline').textContent(),/2027\/4\/1/);
+    await page.reload();
+    assert.equal(await page.locator('#leave-start').inputValue(),'2027-04-01');
+    await page.locator('[data-p="p-check"]').click();
+    const other=await page.context().newPage();
+    other.on('pageerror',e=>errors.push(e.message));
+    await other.goto('http://127.0.0.1:'+server.address().port);
+    await other.locator('[data-p="p-check"]').click();
+    await Promise.all([page.locator('#checklist input').nth(1).check(),other.locator('#checklist input').nth(2).check()]);
+    await page.waitForFunction(()=>document.querySelectorAll('#checklist input')[2].checked);
+    await other.waitForFunction(()=>document.querySelectorAll('#checklist input')[1].checked);
+    await Promise.all([page.locator('#weekly input').nth(1).check(),other.locator('#weekly input').nth(2).check()]);
+    await page.waitForFunction(()=>document.querySelectorAll('#weekly input')[2].checked);
+    await other.waitForFunction(()=>document.querySelectorAll('#weekly input')[1].checked);
+    await other.locator('#checklist input').nth(1).uncheck();
+    await page.waitForFunction(()=>!document.querySelectorAll('#checklist input')[1].checked);
+    await page.reload();
+    await page.locator('[data-p="p-check"]').click();
+    assert.equal(await page.locator('#checklist input').nth(1).isChecked(),false);
+    assert.equal(await page.locator('#checklist input').nth(2).isChecked(),true);
+    await other.close();
     await page.locator('[data-p="p-home"]').click();
     await page.screenshot({path:'/tmp/papa-ikuji-home.png',fullPage:true});
     await page.evaluate(()=>{localStorage.setItem('papa-check-v1','null');localStorage.setItem('papa-week-v1','[]');localStorage.setItem('papa-dob-v1','bad');});
@@ -52,6 +83,7 @@ const assert=require('node:assert/strict');
     await blocked.locator('#dob-input').fill('2026-09-01');await blocked.locator('#dob-save').click();
     assert.equal(await blocked.locator('#dob-view').isVisible(),true);
     assert.deepEqual(errors,[]);
-    console.log('PASS: mobile navigation, age, edit, midnight/Monday reset, persistence, corrupt/blocked storage, no JS errors or overflow');
+    console.log('PASS: mobile navigation, age, edit, midnight/Monday reset, persistence, custom leave dates, age browsing, multi-tab checks, corrupt/blocked storage, no JS errors or overflow');
   }finally{if(browser)await browser.close();server.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
+

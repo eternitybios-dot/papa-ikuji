@@ -149,3 +149,8 @@ body:not(.simple) .simple{display:none;}
   nav.tabs button{font-size:9px;}
   nav.tabs button .e{font-size:18px;}
 }
+
+
+#leave-timeline .m{width:105px;overflow-wrap:anywhere;}
+.leave-settings label{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;}
+.leave-settings input[type=date]{min-width:0;width:100%;}
