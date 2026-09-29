@@ -1,4 +1,4 @@
-const {parseDate, monthAnniversary, monthsBetween, weekKey, readObject, createStorage}=PapaCore;
+const {parseDate, monthAnniversary, monthsBetween, weekKey, readObject, createStorage, addDays, dateValue, readChecklist, saveChecklistItem, buildLeavePlan}=PapaCore;
 const storage=createStorage(()=>window.localStorage,()=>{
   const message=document.getElementById('storage-status');
   message.hidden=false;
@@ -54,16 +54,14 @@ const ITEMS=[
  ["自分も休憩・深呼吸をした","パパのメンタルも育児資源"],
 ];
 const KEY='papa-check-v1';
-let state=readObject(storage.getItem(KEY));
 let today=new Date().toDateString();
-if(state.date!==today) state={date:today};
-storage.setItem(KEY,JSON.stringify(state));
+let state=readChecklist(storage,KEY,'date',today,ITEMS.length);
 const list=document.getElementById('checklist');
 ITEMS.forEach((it,i)=>{
   const l=document.createElement('label'); l.className='check'+(state[i]?' done':'');
   l.innerHTML='<input type="checkbox" '+(state[i]?'checked':'')+'><span>'+it[0]+'<small>'+it[1]+'</small></span>';
   l.querySelector('input').onchange=e=>{const checked=e.target.checked; refreshCalendar(); state[i]=checked; state.date=today; e.target.checked=checked;
-    try{storage.setItem(KEY,JSON.stringify(state))}catch(_){}
+    saveChecklistItem(storage,KEY,'date',today,i,checked);
     l.classList.toggle('done',e.target.checked); update();};
   list.appendChild(l);
 });
@@ -85,16 +83,14 @@ const WEEKLY=[
  ["自分の睡眠・気分をチェックした","パパの産後うつも約1割"],
 ];
 const WKEY='papa-week-v1'; let wk=weekKey();
-let wstate=readObject(storage.getItem(WKEY));
-if(wstate.week!==wk) wstate={week:wk};
-storage.setItem(WKEY,JSON.stringify(wstate));
+let wstate=readChecklist(storage,WKEY,'week',wk,WEEKLY.length);
 document.getElementById('wk-label').textContent=wk.replace(/-/g,'/')+' の週';
 const wl=document.getElementById('weekly');
 WEEKLY.forEach((it,i)=>{
   const l=document.createElement('label'); l.className='check'+(wstate[i]?' done':'');
   l.innerHTML='<input type="checkbox" '+(wstate[i]?'checked':'')+'><span>'+it[0]+'<small>'+it[1]+'</small></span>';
   l.querySelector('input').onchange=e=>{const checked=e.target.checked; refreshCalendar(); wstate[i]=checked; e.target.checked=checked;
-    try{storage.setItem(WKEY,JSON.stringify(wstate))}catch(_){}
+    saveChecklistItem(storage,WKEY,'week',wk,i,checked);
     l.classList.toggle('done',e.target.checked);};
   wl.appendChild(l);
 });
@@ -177,7 +173,7 @@ function selectStage(index,remember){
   if(remember && !parseDate(storage.getItem(DKEY))){
     try{storage.setItem(SKEY,String(index))}catch(_){}
   }
-  renderPriorities(index);
+  if(!parseDate(storage.getItem(DKEY))) renderPriorities(index);
 }
 pickerButtons.forEach((button,i)=>button.onclick=()=>selectStage(i,true));
 const storedStage=Number(storage.getItem(SKEY));
@@ -199,6 +195,7 @@ function renderAge(){
     const days=Math.round((dob-now)/86400000);
     main.textContent='出産まで '+days+'日'; sub.textContent='予定日 '+dob.toLocaleDateString('ja-JP');
     selectStage(0,false);
+    renderPriorities(0);
     stage.innerHTML='産後パパ育休の申出は原則<b>2週間前</b>まで。入院バッグ・チャイルドシート・沐浴用品・液体ミルクの備蓄・実家との役割分担を今のうちに。';
     ev.innerHTML=EVENTS.slice(0,4).map(e=>'<div class="ev"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+(e[2]?'<span class="pill">'+e[2]+'</span>':'')+'</span></div>').join('');
     return;
@@ -211,6 +208,7 @@ function renderAge(){
   let cur=null, stageIndex=0;
   document.querySelectorAll('.card.age').forEach((c,i)=>{const lo=+c.dataset.min, hi=+c.dataset.max; if(m>=lo&&m<hi){c.classList.add('now'); cur=c; stageIndex=i;}});
   selectStage(stageIndex,false);
+  renderPriorities(stageIndex);
   stage.innerHTML=cur?'今の時期：<b>'+cur.querySelector('.age-tag').textContent+'</b>「'+cur.querySelector('h3').textContent+'」。「発達・年齢」タブで<b>今ここ</b>の印を確認。':'';
   const upcoming=EVENTS.filter(e=>e[0]>=m).slice(0,4), recent=EVENTS.filter(e=>e[0]<m).slice(-1);
   ev.innerHTML=recent.map(e=>'<div class="ev past"><span class="m">生後'+e[0]+'ヶ月</span><span>'+e[1]+'</span></div>').join('')+
@@ -218,38 +216,64 @@ function renderAge(){
   if(!upcoming.length) ev.innerHTML+='<div class="ev"><span class="m">これから</span><span>就学準備・約束を守る・話を聞く。ここまでよく頑張りました。</span></div>';
 }
 /* ---------- leave plan timeline ---------- */
+const LKEY='papa-leave-v1';
+const leaveStart=document.getElementById('leave-start');
+const leaveEnd=document.getElementById('leave-end');
+const leaveStatus=document.getElementById('leave-status');
 function renderLeave(){
   const timeline=document.getElementById('leave-timeline');
-  if(!timeline)return;
-  const raw=storage.getItem(DKEY);
-  const parsed=parseDate(raw);
-  const birth=parsed||new Date('2026-10-15T00:00:00');
-  const addDays=(date,days)=>{const value=new Date(date);value.setDate(value.getDate()+days);return value;};
-  const fmt=date=>(date.getMonth()+1)+'/'+date.getDate();
-  const ageAt=date=>{
-    if(date<birth)return '出産前';
-    const months=monthsBetween(birth,date);
-    if(months<1)return '生後'+Math.round((date-birth)/86400000)+'日';
-    return '生後'+months+'ヶ月';
-  };
+  const birth=parseDate(storage.getItem(DKEY));
+  const saved=readObject(storage.getItem(LKEY));
+  document.querySelectorAll('.card.phase').forEach(card=>{
+    card.classList.remove('now');
+    card.querySelector('.age-tag').textContent=['① 出産前・準備','② 産後パパ育休 28日','③ 復職期間','④ 通常の育休'][+card.dataset.phase];
+  });
+  if(!birth){
+    timeline.textContent='ホームで誕生日または出産予定日を登録すると表示します。';
+    leaveStart.value=saved.start||''; leaveEnd.value=saved.end||'';
+    leaveStatus.textContent='先にホームで誕生日または予定日を登録してください。';
+    leaveStart.min='1900-01-01'; leaveEnd.min=leaveStart.value||'1900-01-01';
+    return;
+  }
+  leaveStart.min=dateValue(addDays(birth,28));
+  const phases=buildLeavePlan(birth,saved);
+  if(!phases){
+    timeline.textContent='誕生日の変更により日程が合わなくなりました。通常の育休は産後パパ育休の終了後に設定してください。';
+    leaveStart.value=saved.start||''; leaveEnd.value=saved.end||'';
+    leaveEnd.min=leaveStart.value||leaveStart.min;
+    leaveStatus.textContent='日程を見直して保存してください。';
+    return;
+  }
+  const second=phases.find(phase=>phase.id===3);
+  leaveStart.value=dateValue(second.from); leaveEnd.value=dateValue(second.to);
+  leaveEnd.min=leaveStart.value;
+  leaveStatus.textContent=saved.start&&saved.end?'保存した日程を表示しています。':'通常の育休は生後6ヶ月頃から6ヶ月間の例です。実際の日程に変更して保存してください。';
+  const fmt=date=>date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate();
+  const ageAt=date=>date<birth?'出産前':monthsBetween(birth,date)<1?'生後'+Math.round((date-birth)/86400000)+'日':'生後'+monthsBetween(birth,date)+'ヶ月';
   const now=new Date(); now.setHours(0,0,0,0);
-  const firstEnd=addDays(birth,29);
-  const secondStart=new Date('2027-04-01T00:00:00');
-  const secondEnd=new Date('2027-09-30T00:00:00');
-  const phases=[
-    {id:0,name:'① 出産前・準備',from:null,to:addDays(birth,-1),age:'〜出産'},
-    {id:1,name:'② 産後パパ育休 1ヶ月',from:birth,to:firstEnd,age:ageAt(birth)+'〜'+ageAt(firstEnd)},
-    {id:2,name:'③ 復職期間',from:addDays(firstEnd,1),to:addDays(secondStart,-1),age:ageAt(addDays(firstEnd,1))+'〜'+ageAt(addDays(secondStart,-1))},
-    {id:3,name:'④ 育休 6ヶ月',from:secondStart,to:secondEnd,age:ageAt(secondStart)+'〜'+ageAt(secondEnd)},
-    {id:4,name:'⑤ 復職（ここからが本番）',from:addDays(secondEnd,1),to:null,age:ageAt(addDays(secondEnd,1))+'〜'}
-  ];
-  const current=phases.findIndex(phase=>(phase.from===null||now>=phase.from)&&(phase.to===null||now<=phase.to));
-  timeline.innerHTML=phases.map(phase=>
-    '<div class="ev'+(phase.id===current?'':(phase.to&&now>phase.to?' past':''))+'"><span class="m">'+(phase.from?fmt(phase.from):'今')+'〜'+(phase.to?fmt(phase.to):'')+'</span><span>'+
-    (phase.id===current?'<b>'+phase.name+'</b>':phase.name)+'<br><small style="color:var(--muted)">'+phase.age+'</small></span></div>'
-  ).join('')+(parsed?'':'<div class="source">※ 誕生日未登録のため、予定日を2026年10月15日として仮計算しています。</div>');
-  document.querySelectorAll('.card.phase').forEach(card=>card.classList.toggle('now',+card.dataset.phase===current));
+  const current=phases.find(phase=>(!phase.from||now>=phase.from)&&(!phase.to||now<=phase.to));
+  timeline.innerHTML=phases.map(phase=>{
+    const age=phase.from?ageAt(phase.from)+(phase.to?'〜'+ageAt(phase.to):'〜'):'〜出産';
+    const range=(phase.from?fmt(phase.from):'出産前')+'〜'+(phase.to?fmt(phase.to):'');
+    document.querySelectorAll('.card.phase').forEach(card=>{
+      if(+card.dataset.phase!==phase.id)return;
+      card.classList.toggle('now',phase.id===current?.id);
+      card.querySelector('.age-tag').textContent=phase.name+'（'+range+'・'+age+'）';
+    });
+    return '<div class="ev'+(phase.to&&now>phase.to?' past':'')+'"><span class="m">'+range+'</span><span>'+(phase.id===current?.id?'<b>'+phase.name+'</b>':phase.name)+'<br><small>'+age+'</small></span></div>';
+  }).join('');
 }
+document.getElementById('leave-save').onclick=()=>{
+  if(!leaveStart.reportValidity()||!leaveEnd.reportValidity())return;
+  const saved={start:leaveStart.value,end:leaveEnd.value};
+  const birth=parseDate(storage.getItem(DKEY));
+  if(!birth||!buildLeavePlan(birth,saved)){
+    leaveStatus.textContent='開始日は産後パパ育休の終了後、終了日は開始日以降にしてください。';
+    return;
+  }
+  storage.setItem(LKEY,JSON.stringify(saved)); renderLeave();
+};
+leaveStart.onchange=()=>{leaveEnd.min=leaveStart.value;};
 
 document.getElementById('dob-save').onclick=()=>{ if(!dobInput.reportValidity()||!parseDate(dobInput.value)) return; try{storage.setItem(DKEY,dobInput.value)}catch(_){}; renderAge(); renderLeave(); };
 document.getElementById('dob-edit').onclick=()=>{
@@ -263,18 +287,25 @@ renderLeave();
 
 /* Check on resume AND before a checkbox change; preserve existing storage keys. */
 function refreshCalendar(){
-  const next=new Date().toDateString(), nextWeek=weekKey();
-  if(next!==today){
-    today=next; state={date:today}; storage.setItem(KEY,JSON.stringify(state));
-    list.querySelectorAll('input').forEach(input=>{input.checked=false;input.closest('label').classList.remove('done');});
-    update(); renderAge(); renderLeave();
-  }
-  if(nextWeek!==wk){
-    wk=nextWeek; wstate={week:wk}; storage.setItem(WKEY,JSON.stringify(wstate));
-    wl.querySelectorAll('input').forEach(input=>{input.checked=false;input.closest('label').classList.remove('done');});
-    document.getElementById('wk-label').textContent=wk.replace(/-/g,'/')+' の週';
-  }
+  const next=new Date().toDateString();
+  if(next!==today){today=next; renderAge(); renderLeave();}
+  wk=weekKey();
+  state=readChecklist(storage,KEY,'date',today,ITEMS.length);
+  wstate=readChecklist(storage,WKEY,'week',wk,WEEKLY.length);
+  [[list,state],[wl,wstate]].forEach(([container,checks])=>{
+    container.querySelectorAll('input').forEach((input,i)=>{
+      input.checked=!!checks[i]; input.closest('label').classList.toggle('done',input.checked);
+    });
+  });
+  update();
+  document.getElementById('wk-label').textContent=wk.replace(/-/g,'/')+' の週';
 }
+window.addEventListener('storage',event=>{
+  if(event.key===null||event.key===KEY||event.key===WKEY||event.key?.startsWith(KEY+':')||event.key?.startsWith(WKEY+':'))refreshCalendar();
+  if(event.key===null||event.key===DKEY||event.key===SKEY)renderAge();
+  if(event.key===null||event.key===DKEY||event.key===LKEY)renderLeave();
+  if(event.key===null||event.key===MODE_KEY)setMode(storage.getItem(MODE_KEY)==='simple'?'simple':'full',false);
+});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshCalendar();});
 window.addEventListener('focus',refreshCalendar);
 setInterval(refreshCalendar,30000);
