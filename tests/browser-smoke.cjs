@@ -16,7 +16,8 @@ const assert=require('node:assert/strict');
   let browser;
   try{
     browser=await chromium.launch({headless:true,args:['--no-sandbox']});
-    const page=await browser.newPage({viewport:{width:390,height:844},timezoneId:'Asia/Tokyo'});
+    const context=await browser.newContext({viewport:{width:390,height:844},timezoneId:'Asia/Tokyo'});
+    const page=await context.newPage();
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.clock.install({time:new Date('2026-09-20T23:59:50+09:00')});
     await page.goto('http://127.0.0.1:'+server.address().port);
