@@ -496,3 +496,14 @@ button:active,.age-picker-button:active,.check:active{transform:scale(.98);}
 @media (prefers-reduced-motion:reduce){
   .hero-illustration,.hero-illustration *{animation:none!important;}
 }
+
+
+/* Keep the hero copy clear of the animated illustration */
+header.hero h1,
+header.hero p{max-width:calc(100% - 174px);}
+.hero-illustration{width:clamp(116px,34vw,158px);}
+@media (max-width:390px){
+  header.hero h1,
+  header.hero p{max-width:calc(100% - 148px);}
+  .hero-illustration{right:1px;width:132px;}
+}
