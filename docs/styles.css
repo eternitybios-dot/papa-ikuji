@@ -438,3 +438,61 @@ button:active,.age-picker-button:active,.check:active{transform:scale(.98);}
   .priority{padding:15px;}
   .card{padding:15px;}
 }
+
+
+/* Animated papa and baby illustration */
+.hero-illustration{
+  position:absolute;
+  z-index:1;
+  right:5px;
+  bottom:1px;
+  width:158px;
+  margin:0;
+  pointer-events:none;
+  transform-origin:58% 86%;
+  filter:drop-shadow(0 8px 10px rgba(20,39,29,.16));
+  animation:illustration-breathe 4.4s ease-in-out infinite;
+}
+.hero-illustration svg{display:block;width:100%;height:auto;overflow:visible;}
+.hero-illustration .illustration-shadow{fill:rgba(17,37,26,.17);}
+.hero-illustration .shirt{fill:#e9a174;}
+.hero-illustration .neck,.hero-illustration .face,.hero-illustration .ear,
+.hero-illustration .cheek,.hero-illustration .baby-face,.hero-illustration .hand{fill:#f4c5a2;}
+.hero-illustration .hair,.hero-illustration .hair-detail,
+.hero-illustration .baby-hair{fill:#3b302c;}
+.hero-illustration .hair-detail{fill:none;stroke:#59443b;stroke-width:3;stroke-linecap:round;}
+.hero-illustration .eye,.hero-illustration .smile,
+.hero-illustration .baby-eye,.hero-illustration .baby-smile{fill:none;stroke:#513b35;stroke-width:2.7;stroke-linecap:round;}
+.hero-illustration .cheek{opacity:.55;}
+.hero-illustration .baby-hood{fill:#86a88a;}
+.hero-illustration .swaddle{fill:#fff0d8;}
+.hero-illustration .swaddle-fold{fill:none;stroke:#e8cda9;stroke-width:3;stroke-linecap:round;}
+.hero-illustration .arm{fill:#f0b48f;}
+.hero-illustration .sparkle{fill:#f6d786;transform-box:fill-box;transform-origin:center;animation:sparkle-twinkle 2.2s ease-in-out infinite;}
+.hero-illustration .sparkle-two{animation-delay:.8s;opacity:.75;}
+.hero-illustration .baby{transform-box:view-box;transform-origin:123px 126px;animation:baby-rock 3.3s ease-in-out infinite;}
+.hero-illustration .heart{fill:#f2a184;transform-box:fill-box;transform-origin:center;animation:heart-beat 2s ease-in-out infinite;}
+@keyframes illustration-breathe{
+  0%,100%{transform:translateY(0) rotate(0);}
+  50%{transform:translateY(-4px) rotate(-1deg);}
+}
+@keyframes baby-rock{
+  0%,100%{transform:rotate(0);}
+  35%{transform:rotate(2deg);}
+  70%{transform:rotate(-1.5deg);}
+}
+@keyframes sparkle-twinkle{
+  0%,100%{opacity:.45;transform:scale(.82) rotate(-8deg);}
+  50%{opacity:1;transform:scale(1.12) rotate(8deg);}
+}
+@keyframes heart-beat{
+  0%,35%,100%{transform:scale(1);}
+  15%{transform:scale(1.2);}
+  23%{transform:scale(1.05);}
+}
+@media (max-width:390px){
+  .hero-illustration{right:1px;width:132px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-illustration,.hero-illustration *{animation:none!important;}
+}
